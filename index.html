@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agentic ASR - Multi-turn Dialogue for ASR Error Correction</title>
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #11998e;
+      --secondary-color: #38ef7d;
+      --error-color: #f44336;
+      --success-color: #4caf50;
+      --warning-color: #ff9800;
+    }
+    body { font-family: 'Inter', sans-serif; background: #fafafa; margin: 0; }
+    .hero-gradient { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); padding: 60px 20px; text-align: center; }
+    .hero-gradient h1 { color: white; font-size: 36px; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+    .hero-gradient p { color: rgba(255,255,255,0.9); font-size: 18px; }
+    
+    .tabs-section { background: white; padding: 15px 0; border-bottom: 3px solid var(--primary-color); position: sticky; top: 0; z-index: 100; }
+    .tabs-container { max-width: 900px; margin: 0 auto; display: flex; justify-content: center; gap: 15px; }
+    .tab-btn { padding: 10px 25px; font-size: 15px; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; background: #f0f0f0; color: #666; }
+    .tab-btn.active { background: var(--primary-color); color: white; }
+    
+    .tab-content { display: none; max-width: 900px; margin: 0 auto; padding: 30px 20px; }
+    .tab-content.active { display: block; }
+    .section-title { text-align: center; margin-bottom: 30px; }
+    .section-title h2 { font-size: 24px; color: #333; }
+    
+    .sample-card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-left: 4px solid var(--primary-color); }
+    .sample-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+    .sample-id { background: var(--primary-color); color: white; padding: 5px 12px; border-radius: 6px; font-weight: bold; font-size: 13px; }
+    
+    .gt-box { background: #e8f5e9; border-left: 3px solid var(--success-color); padding: 12px 15px; border-radius: 0 6px 6px 0; margin-bottom: 15px; }
+    .gt-box strong { color: #2e7d32; font-size: 12px; }
+    
+    .correction-flow { position: relative; padding-left: 25px; }
+    .correction-flow::before { content: ''; position: absolute; left: 6px; top: 0; bottom: 0; width: 2px; background: var(--primary-color); }
+    
+    .flow-step { position: relative; margin-bottom: 15px; padding-left: 20px; }
+    .flow-step::before { content: ''; position: absolute; left: -22px; top: 6px; width: 14px; height: 14px; border-radius: 50%; background: white; border: 3px solid var(--primary-color); }
+    .flow-step:first-child::before { border-color: var(--error-color); }
+    .flow-step:last-child::before { border-color: var(--success-color); }
+    
+    .step-label { font-weight: 600; font-size: 12px; color: #666; margin-bottom: 5px; }
+    .step-content { background: #f5f5f5; padding: 10px 14px; border-radius: 8px; font-size: 14px; line-height: 1.5; border-left: 2px solid #ccc; }
+    .step-content.error { background: #ffebee; border-color: var(--error-color); }
+    .step-content.correct { background: #e8f5e9; border-color: var(--success-color); }
+    .step-content.correction { background: #fff3e0; border-color: var(--warning-color); }
+    .step-content.think { background: #fff8e1; border-color: #ffc107; font-size: 12px; }
+    .step-content.asr-audio { background: #e3f2fd; border-color: #2196f3; }
+    
+    .think-toggle { cursor: pointer; color: #e65100; font-size: 12px; text-decoration: underline; }
+    .think-content { display: none; margin-top: 8px; max-height: 200px; overflow-y: auto; white-space: pre-wrap; }
+    .think-content.expanded { display: block; }
+    
+    .abstract-section { background: white; padding: 40px 20px; }
+    .abstract-content { max-width: 900px; margin: 0 auto; text-align: justify; font-size: 15px; line-height: 1.8; color: #444; }
+    
+    .framework-section { background: #f8f9fa; padding: 40px 20px; }
+    .framework-carousel { max-width: 900px; margin: 0 auto; position: relative; overflow: hidden; }
+    .carousel-container { display: flex; transition: transform 0.5s ease; }
+    .carousel-slide { min-width: 100%; padding: 0 10px; box-sizing: border-box; }
+    .carousel-slide img { width: 60%; height: auto; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.15); margin: 0 auto; display: block; }
+    .carousel-nav { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
+    .carousel-btn { padding: 10px 25px; border: 2px solid var(--primary-color); background: white; color: var(--primary-color); border-radius: 25px; cursor: pointer; font-weight: 600; transition: all 0.3s; }
+    .carousel-btn:hover, .carousel-btn.active { background: var(--primary-color); color: white; }
+  </style>
+</head>
+<body>
+  <section class="hero-gradient">
+    <h1>Agentic ASR</h1>
+    <p>Multi-turn Dialogue for ASR Error Correction</p>
+  </section>
+
+  <!-- Abstract -->
+  <section class="abstract-section">
+    <div class="abstract-content">
+      <h2 style="text-align: center; margin-bottom: 20px; color: #333;">Abstract</h2>
+      <p>Recent years have witnessed remarkable progress in automatic speech recognition (ASR), driven by advances in model architectures and large-scale training data. However, two important aspects remain underexplored. First, Word Error Rate (WER), the dominant evaluation metric for decades, treats all words equally and often fails to reflect the semantic correctness of an utterance at the sentence level. Second, interactive correction—an essential component of human communication—has rarely been systematically studied in ASR research. In this paper, we integrate these two perspectives under an <strong>agentic framework for interactive ASR</strong>. We propose leveraging <strong>LLM-as-a-Judge</strong> as a semantic-aware evaluation metric to assess recognition quality beyond token-level accuracy. Furthermore, we design an <strong>LLM-driven agent framework</strong> to simulate human-like multi-turn interaction, enabling iterative refinement of recognition outputs through semantic feedback. Extensive experiments are conducted on standard benchmarks, including GigaSpeech (English), WenetSpeech (Chinese), the ASRU 2019 code-switching test set, and MCA named-entity test sets. Both objective and subjective evaluations demonstrate the effectiveness of the proposed framework in improving semantic fidelity and interactive correction capability.</p>
+    </div>
+  </section>
+
+  <!-- Framework Carousel -->
+  <section class="framework-section">
+    <div style="max-width: 900px; margin: 0 auto 30px; text-align: center;">
+      <h2 style="color: #333; margin-bottom: 10px;">Framework Overview</h2>
+      <p style="color: #666;">Our proposed agentic framework for interactive ASR error correction</p>
+    </div>
+    <div class="framework-carousel">
+      <div class="carousel-container" id="carouselContainer">
+        <div class="carousel-slide">
+          <img src="static/images/interactive_asr_page1.png" alt="Interactive ASR Framework">
+          <p style="text-align: center; margin-top: 15px; color: #666; font-size: 14px;"><strong>Figure 1:</strong> Overview of the Interactive ASR framework. An LLM Intent Router classifies the base ASR hypothesis (H<sub>t</sub>) using the previous transcript (Y<sub>t-1</sub>). New utterances bypass correction and are output directly, while corrective instructions trigger an LLM Reasoning Corrector to refine Y<sub>t-1</sub> via a three-step CoT process (Locate, Reason, Surgical Replacement).</p>
+        </div>
+        <div class="carousel-slide">
+          <img src="static/images/framework_3_5_page1.png" alt="Automated Simulation Framework">
+          <p style="text-align: center; margin-top: 15px; color: #666; font-size: 14px;"><strong>Figure 2:</strong> Overview of the Automated Simulation Framework. An LLM-as-a-Judge first evaluates the semantic coherence of the initial ASR hypothesis. Upon detecting an error, the User Simulator generates a spoken correction instruction via an LLM and TTS. The Interactive ASR then processes this feedback to reason and update the hypothesis, forming an automated correction process.</p>
+        </div>
+        <div class="carousel-slide">
+          <img src="static/images/metric_trend_page1.png" alt="Performance Trends">
+          <p style="text-align: center; margin-top: 15px; color: #666; font-size: 14px;"><strong>Figure 3:</strong> Comparison of S<sup>2</sup>ER (top) and CER/WER/MER (bottom) reduction trends across three datasets over 10 interaction loops. The proposed S<sup>2</sup>ER metric shows dramatic improvements in the first 1-2 turns, achieving near-perfect semantic accuracy.</p>
+        </div>
+      </div>
+      <div class="carousel-nav">
+        <button class="carousel-btn active" onclick="showSlide(0)">Interactive ASR Framework</button>
+        <button class="carousel-btn" onclick="showSlide(1)">Simulation Framework</button>
+        <button class="carousel-btn" onclick="showSlide(2)">Performance Results</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="tabs-section">
+    <div class="tabs-container">
+      <button class="tab-btn active" data-tab="chinese">Chinese 中文</button>
+      <button class="tab-btn" data-tab="english">English 英文</button>
+      <button class="tab-btn" data-tab="codeswitch">Code-switch 中英混杂</button>
+    </div>
+  </div>
+
+  <main>
+    <!-- Chinese -->
+    <div class="tab-content active" id="chinese">
+      <div class="section-title">
+        <h2>Chinese ASR Error Correction</h2>
+      </div>
+
+      <!-- Sample 1: 吴克儿 - 2轮 -->
+      <div class="sample-card">
+        <div class="sample-header">
+          <span class="sample-id">ID: TEST_NET_Y0000000000_-KTKHdZ2fb8_S00043</span>
+          <span class="tag" style="background:#e3f2fd;color:#1565c0;padding:4px 10px;border-radius:12px;font-size:11px;">2 Rounds</span>
+        </div>
+        <div class="gt-box"><strong>Ground Truth:</strong> 吴克儿待会儿去趟监控室</div>
+        <div class="correction-flow">
+          <div class="flow-step">
+            <div class="step-label">Loop 0 - Initial ASR</div>
+            <div class="step-content error">吴克，带我去趟办公室。</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">👤 Human Agent Think (Round 1)</div>
+            <div class="step-content think">
+              <span class="think-toggle" onclick="this.nextElementSibling.classList.toggle('expanded')">点击展开/收起思考过程</span>
+              <div class="think-content">1. 差异定位：人名"吴克儿"被切分为"吴克"且丢失儿化音，"待会儿"被误听为"带我"，"监控室"被误听为"办公室"
+2. 策略选择：策略A（人名纠正）+策略C（语义结构纠正）
+3. 话术构建：先否定错误人名并补充儿化音特征，再否定错误动词并完整复述正确指令</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">🗣️ Human Correction (Round 1)</div>
+            <div class="step-content correction">不是吴克，是吴克儿，克后面有个儿字。要纠正的是待会儿去监控室，不是带我去办公室</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">🔊 ASR on Correction (Round 1)</div>
+            <div class="step-content asr-audio">不是吴克，是吴克儿，克后面有个儿字。要纠正的是，待会儿去监控室，不是带我去办公室。</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">Loop 1 - Partial Correction</div>
+            <div class="step-content error">吴克儿，待会儿去监控室。</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">👤 Human Agent Think (Round 2)</div>
+            <div class="step-content think">
+              <span class="think-toggle" onclick="this.nextElementSibling.classList.toggle('expanded')">点击展开/收起思考过程</span>
+              <div class="think-content">1. 差异定位：Loop1结果"吴克儿，待会儿去监控室"仍缺少"去趟"的"趟"字
+2. 策略选择：策略C（语义补充）
+3. 话术构建：补充缺失的"趟"字</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">🗣️ Human Correction (Round 2)</div>
+            <div class="step-content correction">是去趟监控室，不是去监控室，有个趟字</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">🔊 ASR on Correction (Round 2)</div>
+            <div class="step-content asr-audio">是去趟监控室，不是去监控室，有个趟字。</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">Loop 2 - Corrected</div>
+            <div class="step-content correct">吴克儿待会儿去趟监控室 ✓</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sample 2: 谢正华 -->
+      <div class="sample-card">
+        <div class="sample-header">
+          <span class="sample-id">ID: TEST_NET_Y0000000000_-KTKHdZ2fb8_S00142</span>
+          <span class="tag" style="background:#e3f2fd;color:#1565c0;padding:4px 10px;border-radius:12px;font-size:11px;">1 Round</span>
+        </div>
+        <div class="gt-box"><strong>Ground Truth:</strong> 谢正华</div>
+        <div class="correction-flow">
+          <div class="flow-step">
+            <div class="step-label">Loop 0 - Initial ASR</div>
+            <div class="step-content error">谢振华。</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">👤 Human Agent Think</div>
+            <div class="step-content think">
+              <span class="think-toggle" onclick="this.nextElementSibling.classList.toggle('expanded')">点击展开/收起思考过程</span>
+              <div class="think-content">1. 差异定位：GT中"正华"被误识别为"振华"，属于同音字混淆
+2. 策略选择：策略A（部首/组词纠正）
+3. 话术构建：通过否定+组词方式，用"政治的正"和"正确的正"双重语义锚定</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">🗣️ Human Correction</div>
+            <div class="step-content correction">不是振动的震，是政治的正，正确的正，谢正华</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">🔊 ASR on Correction</div>
+            <div class="step-content asr-audio">不是震动的震，是政治的正，正确的正，谢振华。</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">🤖 ASR Agent Think</div>
+            <div class="step-content think">
+              <span class="think-toggle" onclick="this.nextElementSibling.classList.toggle('expanded')">点击展开/收起思考过程</span>
+              <div class="think-content">1. 原文锚点：姓名"谢振华"中"振"为争议焦点
+2. 线索提取：
+   - 明确排除"震动的震"
+   - 通过"政治的正"和"正确的正"双重语义锚定
+   - 保持姓氏"谢"和名字后字"华"不变
+3. 修改决策：将原字"振"替换为"正"</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">Loop 1 - Corrected</div>
+            <div class="step-content correct">谢正华 ✓</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sample 3: 陪我喝点儿 -->
+      <div class="sample-card">
+        <div class="sample-header">
+          <span class="sample-id">ID: TEST_NET_Y0000000072_Xv5dEMt-tkE_S00293</span>
+          <span class="tag" style="background:#e3f2fd;color:#1565c0;padding:4px 10px;border-radius:12px;font-size:11px;">1 Round</span>
+        </div>
+        <div class="gt-box"><strong>Ground Truth:</strong> 陪我喝点儿</div>
+        <div class="correction-flow">
+          <div class="flow-step">
+            <div class="step-label">Loop 0 - Initial ASR</div>
+            <div class="step-content error">给我喝点儿。</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">👤 Human Agent Think</div>
+            <div class="step-content think">
+              <span class="think-toggle" onclick="this.nextElementSibling.classList.toggle('expanded')">点击展开/收起思考过程</span>
+              <div class="think-content">1. 差异定位："给我"和"陪我"发音相似，但部首不同
+2. 策略选择：策略A（部首纠正）
+3. 话术构建：通过部首描述（单人旁）和组词（陪伴）双重定位</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">🗣️ Human Correction</div>
+            <div class="step-content correction">不是给我，是陪我，陪的部首是单人旁，陪伴的陪</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">🔊 ASR on Correction</div>
+            <div class="step-content asr-audio">不是给我，是陪我，陪的部首是单人旁，陪伴的陪。</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">🤖 ASR Agent Think</div>
+            <div class="step-content think">
+              <span class="think-toggle" onclick="this.nextElementSibling.classList.toggle('expanded')">点击展开/收起思考过程</span>
+              <div class="think-content">1. 原文锚点："给我"需要纠正
+2. 线索提取：
+   - 用户明确否定"给我"
+   - 部首特征：单人旁
+   - 组词线索：陪伴的陪
+3. 修改决策：将"给我"替换为"陪我"</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">Loop 1 - Corrected</div>
+            <div class="step-content correct">陪我喝点儿 ✓</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- English -->
+    <div class="tab-content" id="english">
+      <div class="section-title">
+        <h2>English ASR Error Correction</h2>
+      </div>
+
+      <!-- Sample 1 -->
+      <div class="sample-card">
+        <div class="sample-header">
+          <span class="sample-id">ID: YOU1000000143_S0000123</span>
+          <span class="tag" style="background:#e3f2fd;color:#1565c0;padding:4px 10px;border-radius:12px;font-size:11px;">1 Round</span>
+        </div>
+        <div class="gt-box"><strong>Ground Truth:</strong> SO , AFTER GETTING OBAMA AND BIDEN ELECTED , I FELT THIS POWER TRIP .</div>
+        <div class="correction-flow">
+          <div class="flow-step">
+            <div class="step-label">Loop 0 - Initial ASR</div>
+            <div class="step-content error">So after getting Obama Biden elected, I felt this power shift.</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">👤 Human Agent Think</div>
+            <div class="step-content think">
+              <span class="think-toggle" onclick="this.nextElementSibling.classList.toggle('expanded')">点击展开/收起思考过程</span>
+              <div class="think-content">1. 差异定位：GT中的"TRIP"被错误识别为"SHIFT"，属于同音词混淆
+2. 策略选择：A策略（精确词/拼写纠正），需提供完整拼写
+3. 话术构建：直接给出正确拼写T-R-I-P，并解释语义（权力膨胀感）</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">🗣️ Human Correction</div>
+            <div class="step-content correction">不是 power shift，是 power trip，T R I P</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">🔊 ASR on Correction</div>
+            <div class="step-content asr-audio">不是 power shift，是 power trip，T R I P。</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">🤖 ASR Agent Think</div>
+            <div class="step-content think">
+              <span class="think-toggle" onclick="this.nextElementSibling.classList.toggle('expanded')">点击展开/收起思考过程</span>
+              <div class="think-content">1. 原文锚点：分析当前屏幕文本的核心成分。
+   - "power shift"中的shift为关键纠错点
+
+2. 线索提取：识别用户提供的拼写特征。
+   - 用户明确给出"T-R-I-P"拼写
+   - 语义解释"权力膨胀的感觉"
+
+3. 修改决策：针对关键词进行精准替换。
+   - 将shift替换为trip
+   - 保持句中其他词汇不变</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">Loop 1 - Corrected</div>
+            <div class="step-content correct">So after getting Obama Biden elected, I felt this power trip. ✓</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sample 2 -->
+      <div class="sample-card">
+        <div class="sample-header">
+          <span class="sample-id">ID: POD1000000040_S0000429</span>
+          <span class="tag" style="background:#e3f2fd;color:#1565c0;padding:4px 10px;border-radius:12px;font-size:11px;">1 Round</span>
+        </div>
+        <div class="gt-box"><strong>Ground Truth:</strong> ...WITH HAND SANITIZER AFRAID TO TOUCH THINGS...</div>
+        <div class="correction-flow">
+          <div class="flow-step">
+            <div class="step-label">Loop 0 - Initial ASR</div>
+            <div class="step-content error">...with hand sanitizer free to touch things...</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">👤 Human Agent Think</div>
+            <div class="step-content think">
+              <span class="think-toggle" onclick="this.nextElementSibling.classList.toggle('expanded')">点击展开/收起思考过程</span>
+              <div class="think-content">1. 差异定位：GT中的"AFRAID"被错误识别为"FREE"，属于发音相似词混淆
+2. 策略选择：A策略（精确词/拼写纠正），需提供完整拼写
+3. 话术构建：直接给出正确拼写A-F-R-A-I-D，并解释语义（害怕）</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">🗣️ Human Correction</div>
+            <div class="step-content correction">不是free，是afraid，A F R A I D，害怕的意思</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">🔊 ASR on Correction</div>
+            <div class="step-content asr-audio">不是 free，是 afraid，a f r a i d，害怕的意思。</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">Loop 1 - Corrected</div>
+            <div class="step-content correct">...with hand sanitizer afraid to touch things... ✓</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sample 3 -->
+      <div class="sample-card">
+        <div class="sample-header">
+          <span class="sample-id">ID: POD1000000021_S0000140</span>
+          <span class="tag" style="background:#e3f2fd;color:#1565c0;padding:4px 10px;border-radius:12px;font-size:11px;">1 Round</span>
+        </div>
+        <div class="gt-box"><strong>Ground Truth:</strong> THAT'S EXACTLY WHAT SIMPLISAFE HAS SPEND A DECADE...</div>
+        <div class="correction-flow">
+          <div class="flow-step">
+            <div class="step-label">Loop 0 - Initial ASR</div>
+            <div class="step-content error">That's exactly what Simply Safe has been a decade...</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">🗣️ Human Correction</div>
+            <div class="step-content correction">不是Simply Safe，是S I M P L I S A F E，SimpliSafe</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">🔊 ASR on Correction</div>
+            <div class="step-content asr-audio">不是 simply safe，是 s i m p l i s a f e simply safe。</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">Loop 1 - Corrected</div>
+            <div class="step-content correct">That's exactly what SimPliSafe has spent a decade... ✓</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Code-switch -->
+    <div class="tab-content" id="codeswitch">
+      <div class="section-title">
+        <h2>Code-switch ASR Error Correction</h2>
+      </div>
+
+      <!-- Sample 1: 00117 -->
+      <div class="sample-card">
+        <div class="sample-header">
+          <span class="sample-id">ID: 00117</span>
+          <span class="tag" style="background:#e3f2fd;color:#1565c0;padding:4px 10px;border-radius:12px;font-size:11px;">1 Round</span>
+        </div>
+        <div class="gt-box"><strong>Ground Truth:</strong> 史上最厉害的 ATTENDEE 马上...</div>
+        <div class="correction-flow">
+          <div class="flow-step">
+            <div class="step-label">Loop 0 - Initial ASR</div>
+            <div class="step-content error">史上最厉害的Attendant马上就要出现了。</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">👤 Human Agent Think</div>
+            <div class="step-content think">
+              <span class="think-toggle" onclick="this.nextElementSibling.classList.toggle('expanded')">点击展开/收起思考过程</span>
+              <div class="think-content">1. 差异定位：GT中的"ATTENDEE"被错误识别为"Attendant"，属于英文单词混淆
+2. 策略选择：B策略（跨语言/混合场景重写），需同时提供拼写和语义解释
+3. 话术构建：强调英文字母拼写差异，并解释专业术语含义</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">🗣️ Human Correction</div>
+            <div class="step-content correction">不是Attendant，是英文单词ATTENDEE，A T T E N D E E，意思是参加者</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">🔊 ASR on Correction</div>
+            <div class="step-content asr-audio">不是 attendant，是英文单词 attendee，A T T E N D E E。</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">🤖 ASR Agent Think</div>
+            <div class="step-content think">
+              <span class="think-toggle" onclick="this.nextElementSibling.classList.toggle('expanded')">点击展开/收起思考过程</span>
+              <div class="think-content">1. 原文锚点：分析当前屏幕文本的核心成分。
+   - 中文部分："史上最厉害的"、"马上就要出现了"
+   - 英文部分：Attendant（需纠正）
+
+2. 线索提取：识别用户提供的拼写/语义特征。
+   - 用户明确给出完整拼写"A T T E N D E E"
+   - 中文释义"参加者、出席的人"
+   - 原ASR误识别为attendant（服务生）而非attendee（参与者）
+
+3. 修改决策：针对实体名进行精准替换。
+   - 将attendant替换为attendee
+   - 保持中文部分完全不变</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">Loop 1 - Corrected</div>
+            <div class="step-content correct">史上最厉害的Attendee马上... ✓</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sample 2: 00044 -->
+      <div class="sample-card">
+        <div class="sample-header">
+          <span class="sample-id">ID: 00044</span>
+          <span class="tag" style="background:#e3f2fd;color:#1565c0;padding:4px 10px;border-radius:12px;font-size:11px;">1 Round</span>
+        </div>
+        <div class="gt-box"><strong>Ground Truth:</strong> 每年的今天我都想 MEAN 一下</div>
+        <div class="correction-flow">
+          <div class="flow-step">
+            <div class="step-label">Loop 0 - Initial ASR</div>
+            <div class="step-content error">每年的今天，我都想命一下。</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">🗣️ Human Correction</div>
+            <div class="step-content correction">不是中文的命，是英文的 MEAN，M E A N</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">🔊 ASR on Correction</div>
+            <div class="step-content asr-audio">不是中文的"mean"，是英文的"mean"，m e a n。</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">Loop 1 - Corrected</div>
+            <div class="step-content correct">每年的今天，我都想mean一下。 ✓</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sample 3: 00046 -->
+      <div class="sample-card">
+        <div class="sample-header">
+          <span class="sample-id">ID: 00046</span>
+          <span class="tag" style="background:#e3f2fd;color:#1565c0;padding:4px 10px;border-radius:12px;font-size:11px;">1 Round</span>
+        </div>
+        <div class="gt-box"><strong>Ground Truth:</strong> 只能躲贵宾厅还有二小时 BOARDING</div>
+        <div class="correction-flow">
+          <div class="flow-step">
+            <div class="step-label">Loop 0 - Initial ASR</div>
+            <div class="step-content error">只能躲贵宾厅，还有二小时，波顶。</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">🗣️ Human Correction</div>
+            <div class="step-content correction">不是波顶，是英文字母 B、O、A、R、D、I、N、G，登机</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">🔊 ASR on Correction</div>
+            <div class="step-content asr-audio">不是"波顶"，是英文字母"b o a r d i n g"，登机。</div>
+          </div>
+          <div class="flow-step">
+            <div class="step-label">Loop 1 - Corrected</div>
+            <div class="step-content correct">只能躲贵宾厅，还有二小时，boarding。 ✓</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+<script>
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        this.classList.add('active');
+        document.getElementById(this.dataset.tab).classList.add('active');
+      });
+    });
+    
+    // Carousel control
+    function showSlide(index) {
+      document.getElementById('carouselContainer').style.transform = `translateX(-${index * 100}%)`;
+      document.querySelectorAll('.carousel-btn').forEach((btn, i) => {
+        btn.classList.toggle('active', i === index);
+      });
+    }
+  </script>
+</body>
+</html>
