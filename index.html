@@ -114,15 +114,15 @@
 
   <div class="tabs-section">
     <div class="tabs-container">
-      <button class="tab-btn active" data-tab="chinese">Chinese 中文</button>
-      <button class="tab-btn" data-tab="english">English 英文</button>
-      <button class="tab-btn" data-tab="codeswitch">Code-switch 中英混杂</button>
+      <button class="tab-btn active" data-tab="english">English</button>
+      <button class="tab-btn" data-tab="chinese">Chinese</button>
+      <button class="tab-btn" data-tab="codeswitch">Mandarin-English Code-switch</button>
     </div>
   </div>
 
   <main>
     <!-- Chinese -->
-    <div class="tab-content active" id="chinese">
+    <div class="tab-content" id="chinese">
       <div class="section-title">
         <h2>Chinese ASR Error Correction</h2>
       </div>
@@ -134,6 +134,12 @@
           <span class="tag" style="background:#e3f2fd;color:#1565c0;padding:4px 10px;border-radius:12px;font-size:11px;">2 Rounds</span>
         </div>
         <div class="gt-box"><strong>Ground Truth:</strong> 吴克儿待会儿去趟监控室</div>
+        <div class="flow-step" style="margin: 10px 0;">
+          <div class="step-label">🔊 Ground Truth Audio</div>
+          <audio controls style="width: 100%; margin-top: 5px;">
+            <source src="static/audio/TEST_NET_Y0000000000_-KTKHdZ2fb8_S00043_gt.wav" type="audio/wav">
+          </audio>
+        </div>
         <div class="correction-flow">
           <div class="flow-step">
             <div class="step-label">Loop 0 - Initial ASR</div>
@@ -151,6 +157,9 @@
           <div class="flow-step">
             <div class="step-label">🗣️ Human Correction (Round 1)</div>
             <div class="step-content correction">不是吴克，是吴克儿，克后面有个儿字。要纠正的是待会儿去监控室，不是带我去办公室</div>
+            <audio controls style="width: 100%; margin-top: 5px;">
+              <source src="static/audio/TEST_NET_Y0000000000_-KTKHdZ2fb8_S00043_round1.wav" type="audio/wav">
+            </audio>
           </div>
           <div class="flow-step">
             <div class="step-label">🔊 ASR on Correction (Round 1)</div>
@@ -172,6 +181,9 @@
           <div class="flow-step">
             <div class="step-label">🗣️ Human Correction (Round 2)</div>
             <div class="step-content correction">是去趟监控室，不是去监控室，有个趟字</div>
+            <audio controls style="width: 100%; margin-top: 5px;">
+              <source src="static/audio/TEST_NET_Y0000000000_-KTKHdZ2fb8_S00043_round2.wav" type="audio/wav">
+            </audio>
           </div>
           <div class="flow-step">
             <div class="step-label">🔊 ASR on Correction (Round 2)</div>
@@ -185,7 +197,7 @@
       </div>
 
       <!-- Sample 2: 谢正华 -->
-      <div class="sample-card">
+      <!-- <div class="sample-card">
         <div class="sample-header">
           <span class="sample-id">ID: TEST_NET_Y0000000000_-KTKHdZ2fb8_S00142</span>
           <span class="tag" style="background:#e3f2fd;color:#1565c0;padding:4px 10px;border-radius:12px;font-size:11px;">1 Round</span>
@@ -230,10 +242,10 @@
             <div class="step-content correct">谢正华 ✓</div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- Sample 3: 陪我喝点儿 -->
-      <div class="sample-card">
+      <!-- <div class="sample-card">
         <div class="sample-header">
           <span class="sample-id">ID: TEST_NET_Y0000000072_Xv5dEMt-tkE_S00293</span>
           <span class="tag" style="background:#e3f2fd;color:#1565c0;padding:4px 10px;border-radius:12px;font-size:11px;">1 Round</span>
@@ -278,11 +290,11 @@
             <div class="step-content correct">陪我喝点儿 ✓</div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <!-- English -->
-    <div class="tab-content" id="english">
+    <div class="tab-content active" id="english">
       <div class="section-title">
         <h2>English ASR Error Correction</h2>
       </div>
@@ -294,6 +306,12 @@
           <span class="tag" style="background:#e3f2fd;color:#1565c0;padding:4px 10px;border-radius:12px;font-size:11px;">1 Round</span>
         </div>
         <div class="gt-box"><strong>Ground Truth:</strong> SO , AFTER GETTING OBAMA AND BIDEN ELECTED , I FELT THIS POWER TRIP .</div>
+        <div class="flow-step" style="margin: 10px 0;">
+          <div class="step-label">🔊 Ground Truth Audio</div>
+          <audio controls style="width: 100%; margin-top: 5px;">
+            <source src="static/audio/YOU1000000143_S0000123_gt.wav" type="audio/wav">
+          </audio>
+        </div>
         <div class="correction-flow">
           <div class="flow-step">
             <div class="step-label">Loop 0 - Initial ASR</div>
@@ -302,102 +320,46 @@
           <div class="flow-step">
             <div class="step-label">👤 Human Agent Think</div>
             <div class="step-content think">
-              <span class="think-toggle" onclick="this.nextElementSibling.classList.toggle('expanded')">点击展开/收起思考过程</span>
-              <div class="think-content">1. 差异定位：GT中的"TRIP"被错误识别为"SHIFT"，属于同音词混淆
-2. 策略选择：A策略（精确词/拼写纠正），需提供完整拼写
-3. 话术构建：直接给出正确拼写T-R-I-P，并解释语义（权力膨胀感）</div>
+              <span class="think-toggle" onclick="this.nextElementSibling.classList.toggle('expanded')">Click to expand/collapse thinking process</span>
+              <div class="think-content">
+                1. Error identification: GT's "TRIP" was incorrectly recognized as "SHIFT", which is a homophone confusion error
+                2. Strategy selection: A strategy (precise word/spelling correction), requiring full spelling provision
+                3. Communication construction: Directly provide correct spelling T-R-I-P and explain semantics (feeling of power inflation)
+              </div>
             </div>
           </div>
           <div class="flow-step">
             <div class="step-label">🗣️ Human Correction</div>
-            <div class="step-content correction">不是 power shift，是 power trip，T R I P</div>
+            <div class="step-content correction">It is not "power shift", it is "power trip", T R I P. A feeling of inflated power.</div>
+            <audio controls style="width: 100%; margin-top: 5px;">
+              <source src="static/audio/YOU1000000143_S0000123_round1.wav" type="audio/wav">
+            </audio>
           </div>
           <div class="flow-step">
             <div class="step-label">🔊 ASR on Correction</div>
-            <div class="step-content asr-audio">不是 power shift，是 power trip，T R I P。</div>
+            <div class="step-content asr-audio">It is not power shift, it is power trip, T R I P. A feeling of inflated power.</div>
           </div>
           <div class="flow-step">
             <div class="step-label">🤖 ASR Agent Think</div>
             <div class="step-content think">
-              <span class="think-toggle" onclick="this.nextElementSibling.classList.toggle('expanded')">点击展开/收起思考过程</span>
-              <div class="think-content">1. 原文锚点：分析当前屏幕文本的核心成分。
-   - "power shift"中的shift为关键纠错点
+              <span class="think-toggle" onclick="this.nextElementSibling.classList.toggle('expanded')">Click to expand/collapse thinking process</span>
+              <div class="think-content">
+  1. Original Text Anchor: Analyze the core components of the current screen text.
+  - The word "shift" in "power shift" is the key point for correction
 
-2. 线索提取：识别用户提供的拼写特征。
-   - 用户明确给出"T-R-I-P"拼写
-   - 语义解释"权力膨胀的感觉"
+  2. Clue Extraction: Identify spelling features provided by the user.
+  - User explicitly provides the spelling "T-R-I-P"
+  - Semantic explanation: "a feeling of inflated power/authority"
 
-3. 修改决策：针对关键词进行精准替换。
-   - 将shift替换为trip
-   - 保持句中其他词汇不变</div>
+  3. Modification Decision: Perform precise replacement of the keyword.
+  - Replace "shift" with "trip"
+  - Keep all other words in the sentence unchanged
+  </div>
             </div>
           </div>
           <div class="flow-step">
             <div class="step-label">Loop 1 - Corrected</div>
             <div class="step-content correct">So after getting Obama Biden elected, I felt this power trip. ✓</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sample 2 -->
-      <div class="sample-card">
-        <div class="sample-header">
-          <span class="sample-id">ID: POD1000000040_S0000429</span>
-          <span class="tag" style="background:#e3f2fd;color:#1565c0;padding:4px 10px;border-radius:12px;font-size:11px;">1 Round</span>
-        </div>
-        <div class="gt-box"><strong>Ground Truth:</strong> ...WITH HAND SANITIZER AFRAID TO TOUCH THINGS...</div>
-        <div class="correction-flow">
-          <div class="flow-step">
-            <div class="step-label">Loop 0 - Initial ASR</div>
-            <div class="step-content error">...with hand sanitizer free to touch things...</div>
-          </div>
-          <div class="flow-step">
-            <div class="step-label">👤 Human Agent Think</div>
-            <div class="step-content think">
-              <span class="think-toggle" onclick="this.nextElementSibling.classList.toggle('expanded')">点击展开/收起思考过程</span>
-              <div class="think-content">1. 差异定位：GT中的"AFRAID"被错误识别为"FREE"，属于发音相似词混淆
-2. 策略选择：A策略（精确词/拼写纠正），需提供完整拼写
-3. 话术构建：直接给出正确拼写A-F-R-A-I-D，并解释语义（害怕）</div>
-            </div>
-          </div>
-          <div class="flow-step">
-            <div class="step-label">🗣️ Human Correction</div>
-            <div class="step-content correction">不是free，是afraid，A F R A I D，害怕的意思</div>
-          </div>
-          <div class="flow-step">
-            <div class="step-label">🔊 ASR on Correction</div>
-            <div class="step-content asr-audio">不是 free，是 afraid，a f r a i d，害怕的意思。</div>
-          </div>
-          <div class="flow-step">
-            <div class="step-label">Loop 1 - Corrected</div>
-            <div class="step-content correct">...with hand sanitizer afraid to touch things... ✓</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sample 3 -->
-      <div class="sample-card">
-        <div class="sample-header">
-          <span class="sample-id">ID: POD1000000021_S0000140</span>
-          <span class="tag" style="background:#e3f2fd;color:#1565c0;padding:4px 10px;border-radius:12px;font-size:11px;">1 Round</span>
-        </div>
-        <div class="gt-box"><strong>Ground Truth:</strong> THAT'S EXACTLY WHAT SIMPLISAFE HAS SPEND A DECADE...</div>
-        <div class="correction-flow">
-          <div class="flow-step">
-            <div class="step-label">Loop 0 - Initial ASR</div>
-            <div class="step-content error">That's exactly what Simply Safe has been a decade...</div>
-          </div>
-          <div class="flow-step">
-            <div class="step-label">🗣️ Human Correction</div>
-            <div class="step-content correction">不是Simply Safe，是S I M P L I S A F E，SimpliSafe</div>
-          </div>
-          <div class="flow-step">
-            <div class="step-label">🔊 ASR on Correction</div>
-            <div class="step-content asr-audio">不是 simply safe，是 s i m p l i s a f e simply safe。</div>
-          </div>
-          <div class="flow-step">
-            <div class="step-label">Loop 1 - Corrected</div>
-            <div class="step-content correct">That's exactly what SimPliSafe has spent a decade... ✓</div>
           </div>
         </div>
       </div>
@@ -416,6 +378,12 @@
           <span class="tag" style="background:#e3f2fd;color:#1565c0;padding:4px 10px;border-radius:12px;font-size:11px;">1 Round</span>
         </div>
         <div class="gt-box"><strong>Ground Truth:</strong> 史上最厉害的 ATTENDEE 马上...</div>
+        <div class="flow-step" style="margin: 10px 0;">
+          <div class="step-label">🔊 Ground Truth Audio</div>
+          <audio controls style="width: 100%; margin-top: 5px;">
+            <source src="static/audio/00117_gt.wav" type="audio/wav">
+          </audio>
+        </div>
         <div class="correction-flow">
           <div class="flow-step">
             <div class="step-label">Loop 0 - Initial ASR</div>
@@ -433,6 +401,9 @@
           <div class="flow-step">
             <div class="step-label">🗣️ Human Correction</div>
             <div class="step-content correction">不是Attendant，是英文单词ATTENDEE，A T T E N D E E，意思是参加者</div>
+            <audio controls style="width: 100%; margin-top: 5px;">
+              <source src="static/audio/00117_round1.wav" type="audio/wav">
+            </audio>
           </div>
           <div class="flow-step">
             <div class="step-label">🔊 ASR on Correction</div>
@@ -464,7 +435,7 @@
       </div>
 
       <!-- Sample 2: 00044 -->
-      <div class="sample-card">
+      <!-- <div class="sample-card">
         <div class="sample-header">
           <span class="sample-id">ID: 00044</span>
           <span class="tag" style="background:#e3f2fd;color:#1565c0;padding:4px 10px;border-radius:12px;font-size:11px;">1 Round</span>
@@ -488,10 +459,10 @@
             <div class="step-content correct">每年的今天，我都想mean一下。 ✓</div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- Sample 3: 00046 -->
-      <div class="sample-card">
+      <!-- <div class="sample-card">
         <div class="sample-header">
           <span class="sample-id">ID: 00046</span>
           <span class="tag" style="background:#e3f2fd;color:#1565c0;padding:4px 10px;border-radius:12px;font-size:11px;">1 Round</span>
@@ -515,7 +486,7 @@
             <div class="step-content correct">只能躲贵宾厅，还有二小时，boarding。 ✓</div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </main>
 
