@@ -36,25 +36,80 @@
     .gt-box { background: #e8f5e9; border-left: 3px solid var(--success-color); padding: 12px 15px; border-radius: 0 6px 6px 0; margin-bottom: 15px; }
     .gt-box strong { color: #2e7d32; font-size: 12px; }
     
-    .correction-flow { position: relative; padding-left: 25px; }
-    .correction-flow::before { content: ''; position: absolute; left: 6px; top: 0; bottom: 0; width: 2px; background: var(--primary-color); }
+    .correction-flow { 
+      padding: 20px 15px; 
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* 基础气泡样式 */
+    .flow-step { 
+      display: flex;
+      flex-direction: column;
+      max-width: 75%;
+    }
     
-    .flow-step { position: relative; margin-bottom: 15px; padding-left: 20px; }
-    .flow-step::before { content: ''; position: absolute; left: -22px; top: 6px; width: 14px; height: 14px; border-radius: 50%; background: white; border: 3px solid var(--primary-color); }
-    .flow-step:first-child::before { border-color: var(--error-color); }
-    .flow-step:last-child::before { border-color: var(--success-color); }
+    .step-label { 
+      font-weight: 600; 
+      font-size: 11px; 
+      color: #666; 
+      margin-bottom: 4px; 
+    }
     
-    .step-label { font-weight: 600; font-size: 12px; color: #666; margin-bottom: 5px; }
-    .step-content { background: #f5f5f5; padding: 10px 14px; border-radius: 8px; font-size: 14px; line-height: 1.5; border-left: 2px solid #ccc; }
-    .step-content.error { background: #ffebee; border-color: var(--error-color); }
-    .step-content.correct { background: #e8f5e9; border-color: var(--success-color); }
-    .step-content.correction { background: #fff3e0; border-color: var(--warning-color); }
-    .step-content.think { background: #fff8e1; border-color: #ffc107; font-size: 12px; }
-    .step-content.asr-audio { background: #e3f2fd; border-color: #2196f3; }
+    .step-content { 
+      padding: 10px 14px; 
+      border-radius: 16px; 
+      font-size: 14px; 
+      line-height: 1.5; 
+    }
     
-    .think-toggle { cursor: pointer; color: #e65100; font-size: 12px; text-decoration: underline; }
+    /* ASR 气泡 - 左边 */
+    .flow-step.asr-step { 
+      align-self: flex-start;
+    }
+    .flow-step.asr-step .step-label { text-align: left; }
+    .flow-step.asr-step .step-content { 
+      background: #e3f2fd; 
+      border-bottom-left-radius: 4px;
+    }
+    
+    /* Human 气泡 - 右边 */
+    .flow-step:not(.asr-step):not(.loop-step) { 
+      align-self: flex-end;
+    }
+    .flow-step:not(.asr-step):not(.loop-step) .step-label { text-align: right; }
+    .flow-step:not(.asr-step):not(.loop-step) .step-content { 
+      background: #e8f5e9; 
+      border-bottom-right-radius: 4px;
+    }
+    
+    /* Loop/结果步骤 - 居中 */
+    .flow-step.loop-step {
+      align-self: center;
+      max-width: 90%;
+      text-align: center;
+    }
+    .flow-step.loop-step .step-label { text-align: center; }
+    .flow-step.loop-step .step-content { 
+      border-radius: 8px; 
+      text-align: center;
+    }
+    .flow-step.loop-step .step-content.error { background: #ffebee; }
+    .flow-step.loop-step .step-content.correct { background: #e8f5e9; }
+    
+    /* 音频控件宽度 */
+    .flow-step audio {
+      width: 280px;
+      margin-top: 6px;
+    }
+    
+    /* Think 内容样式 */
+    .think-toggle { cursor: pointer; color: #e65100; font-size: 12px; text-decoration: underline; display: block; }
     .think-content { display: none; margin-top: 8px; max-height: 200px; overflow-y: auto; white-space: pre-wrap; }
     .think-content.expanded { display: block; }
+    .flow-step .step-content.think { background: #fff8e1; }
+    .flow-step.loop-step .step-content.think { background: #fff8e1; }
     
     .abstract-section { background: white; padding: 40px 20px; }
     .abstract-content { max-width: 900px; margin: 0 auto; text-align: justify; font-size: 15px; line-height: 1.8; color: #444; }
@@ -134,14 +189,14 @@
           <span class="tag" style="background:#e3f2fd;color:#1565c0;padding:4px 10px;border-radius:12px;font-size:11px;">2 Rounds</span>
         </div>
         <div class="gt-box"><strong>Ground Truth:</strong> 吴克儿待会儿去趟监控室</div>
-        <div class="flow-step" style="margin: 10px 0;">
-          <div class="step-label">🔊 Ground Truth Audio</div>
-          <audio controls style="width: 100%; margin-top: 5px;">
-            <source src="static/audio/TEST_NET_Y0000000000_-KTKHdZ2fb8_S00043_gt.wav" type="audio/wav">
-          </audio>
-        </div>
         <div class="correction-flow">
           <div class="flow-step">
+            <div class="step-label">🔊 Ground Truth Audio</div>
+            <audio controls>
+              <source src="static/audio/TEST_NET_Y0000000000_-KTKHdZ2fb8_S00043_gt.wav" type="audio/wav">
+            </audio>
+          </div>
+          <div class="flow-step asr-step">
             <div class="step-label">Loop 0 - Initial ASR</div>
             <div class="step-content error">吴克，带我去趟办公室。</div>
           </div>
@@ -161,11 +216,11 @@
               <source src="static/audio/TEST_NET_Y0000000000_-KTKHdZ2fb8_S00043_round1.wav" type="audio/wav">
             </audio>
           </div>
-          <div class="flow-step">
+          <div class="flow-step asr-step">
             <div class="step-label">🔊 ASR on Correction (Round 1)</div>
             <div class="step-content asr-audio">不是吴克，是吴克儿，克后面有个儿字。要纠正的是，待会儿去监控室，不是带我去办公室。</div>
           </div>
-          <div class="flow-step">
+          <div class="flow-step asr-step">
             <div class="step-label">Loop 1 - Partial Correction</div>
             <div class="step-content error">吴克儿，待会儿去监控室。</div>
           </div>
@@ -185,11 +240,11 @@
               <source src="static/audio/TEST_NET_Y0000000000_-KTKHdZ2fb8_S00043_round2.wav" type="audio/wav">
             </audio>
           </div>
-          <div class="flow-step">
+          <div class="flow-step asr-step">
             <div class="step-label">🔊 ASR on Correction (Round 2)</div>
             <div class="step-content asr-audio">是去趟监控室，不是去监控室，有个趟字。</div>
           </div>
-          <div class="flow-step">
+          <div class="flow-step asr-step">
             <div class="step-label">Loop 2 - Corrected</div>
             <div class="step-content correct">吴克儿待会儿去趟监控室 </div>
           </div>
@@ -306,14 +361,14 @@
           <span class="tag" style="background:#e3f2fd;color:#1565c0;padding:4px 10px;border-radius:12px;font-size:11px;">1 Round</span>
         </div>
         <div class="gt-box"><strong>Ground Truth:</strong> SO , AFTER GETTING OBAMA AND BIDEN ELECTED , I FELT THIS POWER TRIP .</div>
-        <div class="flow-step" style="margin: 10px 0;">
-          <div class="step-label">🔊 Ground Truth Audio</div>
-          <audio controls style="width: 100%; margin-top: 5px;">
-            <source src="static/audio/YOU1000000143_S0000123_gt.wav" type="audio/wav">
-          </audio>
-        </div>
         <div class="correction-flow">
           <div class="flow-step">
+            <div class="step-label">🔊 Ground Truth Audio</div>
+            <audio controls>
+              <source src="static/audio/YOU1000000143_S0000123_gt.wav" type="audio/wav">
+            </audio>
+          </div>
+          <div class="flow-step asr-step">
             <div class="step-label">Loop 0 - Initial ASR</div>
             <div class="step-content error">So after getting Obama Biden elected, I felt this power shift.</div>
           </div>
@@ -335,11 +390,11 @@
               <source src="static/audio/YOU1000000143_S0000123_round1.wav" type="audio/wav">
             </audio>
           </div>
-          <div class="flow-step">
+          <div class="flow-step asr-step">
             <div class="step-label">🔊 ASR on Correction</div>
             <div class="step-content asr-audio">It is not power shift, it is power trip, T R I P. A feeling of inflated power.</div>
           </div>
-          <div class="flow-step">
+          <div class="flow-step asr-step">
             <div class="step-label">🤖 ASR Agent Think</div>
             <div class="step-content think">
               <span class="think-toggle" onclick="this.nextElementSibling.classList.toggle('expanded')">Click to expand/collapse thinking process</span>
@@ -357,14 +412,14 @@
   </div>
             </div>
           </div>
-          <div class="flow-step">
+          <div class="flow-step asr-step">
             <div class="step-label">Loop 1 - Corrected</div>
             <div class="step-content correct">So after getting Obama Biden elected, I felt this power trip. </div>
           </div>
         </div>
       </div>
-    </div>
 
+    </div>
     <!-- Code-switch -->
     <div class="tab-content" id="codeswitch">
       <div class="section-title">
@@ -377,15 +432,15 @@
           <span class="sample-id">ID: 00117</span>
           <span class="tag" style="background:#e3f2fd;color:#1565c0;padding:4px 10px;border-radius:12px;font-size:11px;">1 Round</span>
         </div>
-        <div class="gt-box"><strong>Ground Truth:</strong> 史上最厉害的 ATTENDEE 马上就要出现了</div>
-        <div class="flow-step" style="margin: 10px 0;">
-          <div class="step-label">🔊 Ground Truth Audio</div>
-          <audio controls style="width: 100%; margin-top: 5px;">
-            <source src="static/audio/00117_gt.wav" type="audio/wav">
-          </audio>
-        </div>
+        <div class="gt-box"><strong>Ground Truth:</strong> 史上最厉害的 ATTENDEE 马上要出现了</div>
         <div class="correction-flow">
           <div class="flow-step">
+            <div class="step-label">🔊 Ground Truth Audio</div>
+            <audio controls>
+              <source src="static/audio/00117_gt.wav" type="audio/wav">
+            </audio>
+          </div>
+          <div class="flow-step asr-step">
             <div class="step-label">Loop 0 - Initial ASR</div>
             <div class="step-content error">史上最厉害的Attendant马上就要出现了。</div>
           </div>
@@ -405,21 +460,21 @@
               <source src="static/audio/00117_round1.wav" type="audio/wav">
             </audio>
           </div>
-          <div class="flow-step">
+          <div class="flow-step asr-step">
             <div class="step-label">🔊 ASR on Correction</div>
             <div class="step-content asr-audio">不是 attendant，是英文单词 attendee，A T T E N D E E。</div>
           </div>
-          <div class="flow-step">
+          <div class="flow-step asr-step">
             <div class="step-label">🤖 ASR Agent Think</div>
             <div class="step-content think">
               <span class="think-toggle" onclick="this.nextElementSibling.classList.toggle('expanded')">点击展开/收起思考过程</span>
               <div class="think-content">1. 原文锚点：分析当前屏幕文本的核心成分。
-   - 中文部分："史上最厉害的"、"马上就要出现了"
-   - 英文部分：Attendant（需纠正）
+    - 中文部分："史上最厉害的"、"马上就要出现了"
+    - 英文部分：Attendant（需纠正）
 
 2. 线索提取：识别用户提供的拼写/语义特征。
-   - 用户明确给出完整拼写"A T T E N D E E"
-   - 中文释义"参加者、出席的人"
+    - 用户明确给出完整拼写"A T T E N D E E"
+    - 中文释义"参加者、出席的人"
    - 原ASR误识别为attendant（服务生）而非attendee（参与者）
 
 3. 修改决策：针对实体名进行精准替换。
@@ -427,9 +482,9 @@
    - 保持中文部分完全不变</div>
             </div>
           </div>
-          <div class="flow-step">
+          <div class="flow-step asr-step">
             <div class="step-label">Loop 1 - Corrected</div>
-            <div class="step-content correct">史上最厉害的Attendee马上就要出现了</div>
+            <div class="step-content correct">史上最厉害的Attendee马上要出现了</div>
           </div>
         </div>
       </div>
