@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Interactive ASR | Agentic Correction and Semantic Evaluation</title>
-  <meta name="description" content="Interactive ASR project page for the latest Agentic ASR / TMM version, featuring multi-turn speech correction, S²ER semantic evaluation, open-source code, and live demos.">
+  <title>Interactive ASR</title>
+  <meta name="description" content="Interactive ASR project page with method, results, examples, and citation.">
   <link rel="stylesheet" href="static/css/bulma.min.css">
   <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,468 +13,305 @@
   <link rel="stylesheet" href="static/css/index.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container nav-shell">
-      <a class="brand" href="#top">Interactive ASR</a>
-      <nav class="nav-links" aria-label="Primary">
-        <a href="#overview">Overview</a>
-        <a href="#method">Method</a>
-        <a href="#results">Results</a>
-        <a href="#demo">Demo</a>
-        <a href="#resources">Resources</a>
-      </nav>
-    </div>
-  </header>
-
-  <main id="top">
-    <section class="hero section-band">
-      <div class="container hero-inner reveal">
-        <p class="hero-kicker">Project Homepage</p>
-        <h1>Towards Human-Like Interactive Speech Recognition with Agentic Correction and Semantic Evaluation</h1>
-        <p class="hero-authors">
-          Zixuan Jiang, Yanqiao Zhu, Peng Wang, Qinyuan Chen, Xinjian Zhao,
-          Xipeng Qiu, Wupeng Wang, Zhifu Gao, Xiangang Li, Kai Yu, Xie Chen
-        </p>
-        <p class="hero-affiliations">
-          X-LANCE Lab, Shanghai Jiao Tong University · Xi'an Jiaotong University · CUHK-Shenzhen · Fudan University · Alibaba Group
-        </p>
-
+  <main>
+    <section class="hero-section">
+      <div class="container narrow hero-inner reveal">
+        <h1>Interactive ASR</h1>
         <div class="hero-actions">
-          <a class="paper-button paper-button-primary" href="#results">
-            <i class="fas fa-chart-line" aria-hidden="true"></i>
-            <span>Results</span>
-          </a>
-          <a class="paper-button" href="https://github.com/InteractiveASR/AgenticASR.git" target="_blank" rel="noopener">
+          <a class="hero-button" href="https://github.com/InteractiveASR/AgenticASR.git" target="_blank" rel="noopener">
             <i class="fab fa-github" aria-hidden="true"></i>
-            <span>Code</span>
+            <span>GitHub</span>
           </a>
-          <a class="paper-button" href="https://i-asr.sjtuxlance.com/" target="_blank" rel="noopener">
+          <a class="hero-button" href="https://i-asr.sjtuxlance.com/" target="_blank" rel="noopener">
             <i class="fas fa-wave-square" aria-hidden="true"></i>
-            <span>Demo</span>
-          </a>
-          <a class="paper-button" href="#bibtex">
-            <i class="fas fa-quote-right" aria-hidden="true"></i>
-            <span>Citation</span>
+            <span>Live Demo</span>
           </a>
         </div>
-
-        <p class="hero-note">
-          This is the canonical homepage for the Interactive ASR paper line. The current figures,
-          method description, and benchmark highlights are synchronized to the latest TMM version.
-        </p>
       </div>
     </section>
 
-    <section class="section-band teaser-band">
-      <div class="container reveal">
-        <figure class="teaser-figure">
-          <img src="static/images/tmm/teaser.jpg" alt="Teaser figure comparing human communication, conventional ASR, and Agentic ASR">
+    <section class="section">
+      <div class="container narrow reveal">
+        <figure class="main-figure">
+          <img src="static/images/tmm/teaser-from-pdf.png" alt="Interactive ASR teaser figure" loading="lazy">
         </figure>
         <p class="figure-caption">
-          <strong>Figure 1.</strong> Agentic ASR reframes speech recognition as an iterative repair process:
-          the user can provide spoken feedback, and the system incrementally revises the transcript until semantic equivalence is reached.
+          <strong>Comparison between daily human communication, the traditional ASR paradigm, and the proposed Agentic ASR paradigm. </strong>
+          In natural conversations, misunderstandings can be progressively corrected through multi-turn interactions.
+          In contrast, conventional ASR systems operate in a one-shot, open-loop manner, where recognition errors (e.g., confusing "Megan" with "Morgan") cannot be effectively corrected once produced.
+          The Agentic ASR paradigm introduces a closed-loop mechanism that incorporates user feedback, enabling iterative refinement of transcription results and more accurate understanding.
         </p>
       </div>
     </section>
 
-    <section class="section-band" id="overview">
+    <section class="section section-soft">
       <div class="container narrow reveal">
-        <h2 class="section-title">Abstract</h2>
-        <div class="paper-panel paper-abstract">
+        <h2 class="section-title centered">Abstract</h2>
+        <div class="text-panel centered-text">
           <p>
-            Interactive ASR turns one-shot recognition into a closed-loop refinement process.
-            The latest Agentic ASR version combines semantic correction, intent routing, and reasoning-based editing
-            to support multi-turn transcript repair driven by spoken user feedback.
-            To evaluate this setting beyond token overlap, we introduce
-            <span class="nowrap">S<sup>2</sup>ER</span>, a sentence-level semantic error metric,
-            together with an Interactive Simulation System that automates multi-turn benchmarking at scale.
-            Across English, Mandarin, named-entity-intensive, and code-switch benchmarks, semantic error drops rapidly within the first few loops
-            and continues to improve consistently through later turns.
+            Automatic speech recognition (ASR) is a core component of human-computer interaction and an increasingly important front-end for LLM-based assistants and agents.
+            However, most current ASR systems still follow a single-pass paradigm, which is poorly aligned with human communication, where misunderstandings are resolved through iterative clarification and refinement.
+            This mismatch makes it difficult to correct meaning-critical errors once they occur. Meanwhile, token-level metrics such as WER or CER cannot adequately reflect such a problem.
+            To address these limitations, we formulate <em>Interactive ASR</em> as a multi-turn refinement task and propose <strong>Agentic ASR</strong>, a closed-loop framework that combines a single-pass ASR front-end with semantic correction, intent routing, and reasoning-based editing.
+            We further introduce the <strong>Sentence-level Semantic Error Rate (S<sup>2</sup>ER)</strong>, an LLM-based semantic evaluation metric, together with an <strong>Interactive Simulation System</strong> for scalable and reproducible benchmarking.
+            Experiments on multilingual, named-entity-intensive, and code-switching benchmarks show that iterative interaction consistently reduces semantic errors, with much larger gains in S<sup>2</sup>ER than in conventional token-level metrics.
+            Human-AI alignment and ablation studies further validate the reliability of the semantic judge and the robustness of the proposed framework.
           </p>
         </div>
       </div>
     </section>
 
-    <section class="section-band section-soft">
+    <section class="section" id="method">
       <div class="container reveal">
-        <div class="section-heading">
-          <h2 class="section-title">Why Interactive ASR</h2>
-          <p class="section-subtitle">
-            Standard ASR decodes once and stops. Interactive ASR keeps the transcript editable, so meaning-critical mistakes can be repaired with natural spoken feedback.
-          </p>
-        </div>
-        <div class="highlight-grid">
-          <article class="highlight-card">
-            <h3>One-shot ASR is not enough</h3>
-            <p>
-              Conventional recognition treats every utterance independently, which makes post-hoc recovery of important mistakes awkward and brittle.
+        <h2 class="section-title">Method</h2>
+        <div class="method-grid">
+          <article class="figure-panel">
+            <h3>Agentic ASR</h3>
+            <img src="static/images/tmm/interactive-framework.png" alt="Agentic ASR framework" loading="lazy">
+            <p class="figure-caption">
+              Agentic ASR framework. At turn <em>t</em>, an ASR front-end first produces a hypothesis <em>H<sub>t</sub></em> from user speech input <em>I<sub>t</sub></em>.
+              An LLM module then performs semantic correction and intent routing into three intent types: <em>confirmation</em>, <em>new input</em>, and <em>correction</em>.
+              For <em>correction</em> intents, a structured <em>Locate--Reason--Modify</em> pipeline identifies the editable span, infers the intended edit from instruction and history, and applies the edit to update the transcription state.
             </p>
           </article>
-          <article class="highlight-card">
-            <h3>WER misses semantic failures</h3>
-            <p>
-              Token-level metrics often under-estimate whether a transcript is still useful for intent understanding, entities, and downstream agents.
-            </p>
-          </article>
-          <article class="highlight-card">
-            <h3>Evaluation needs a loop</h3>
-            <p>
-              The latest version adds S<sup>2</sup>ER and an Interactive Simulation System so multi-turn repair can be evaluated reproducibly.
-            </p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section-band" id="method">
-      <div class="container reveal">
-        <div class="section-heading">
-          <h2 class="section-title">Method</h2>
-          <p class="section-subtitle">
-            Agentic ASR is a closed-loop transcription system that pairs a single-pass ASR backbone with an LLM reasoner for structured local repair.
-          </p>
-        </div>
-
-        <div class="figure-block">
-          <div class="figure-text">
-            <h3>Agentic ASR pipeline</h3>
-            <p>
-              At each interaction turn, the system first performs semantic correction on the user feedback,
-              then routes it into <em>confirmation</em>, <em>new input</em>, or <em>correction</em>.
-              When repair is required, the reasoner executes a constrained
-              <strong>Locate → Reason → Modify</strong> process instead of unconstrained rewriting.
-            </p>
-            <ul class="paper-list">
-              <li>Semantic correction stabilizes noisy spoken feedback.</li>
-              <li>Intent routing distinguishes confirmation, addition, and correction behaviors.</li>
-              <li>Reasoning-based local editing keeps transcript updates controllable.</li>
-            </ul>
-          </div>
-          <figure class="paper-figure">
-            <img src="static/images/tmm/interactive-framework.png" alt="Agentic ASR framework diagram" loading="lazy">
-          </figure>
-        </div>
-
-        <div class="dual-figure-grid">
-          <article class="paper-panel">
-            <h3>S<sup>2</sup>ER</h3>
-            <p>
-              Sentence-level Semantic Error Rate uses an LLM judge to determine whether the current hypothesis preserves enough meaning for correct intent execution.
-            </p>
-            <img src="static/images/tmm/judge-strategy.png" alt="Judge strategy ablation and alignment results" loading="lazy">
-          </article>
-          <article class="paper-panel">
+          <article class="figure-panel">
             <h3>Interactive Simulation System</h3>
-            <p>
-              ISS closes the evaluation loop automatically: judge the transcript, generate corrective spoken feedback, and stop once semantic equivalence is achieved.
-            </p>
-            <img src="static/images/tmm/iss-framework.png" alt="Interactive Simulation System diagram" loading="lazy">
-          </article>
-        </div>
-
-        <div class="highlight-grid method-grid">
-          <article class="highlight-card">
-            <h3>Task formulation</h3>
-            <p>Interactive ASR is modeled as a stateful multi-turn update problem instead of independent speech-to-text calls.</p>
-          </article>
-          <article class="highlight-card">
-            <h3>Correction behavior</h3>
-            <p>The reasoner performs constrained local edits rather than unconstrained rewriting, which makes correction more reliable.</p>
-          </article>
-          <article class="highlight-card">
-            <h3>Benchmarking</h3>
-            <p>The current experiments cover multilingual, named-entity-intensive, and Mandarin-English code-switch scenarios.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section-band section-soft" id="results">
-      <div class="container reveal">
-        <div class="section-heading">
-          <h2 class="section-title">Results</h2>
-          <p class="section-subtitle">
-            Across all six benchmarks, semantic error drops quickly in early turns and continues to improve through longer interaction loops.
-          </p>
-        </div>
-
-        <div class="stats-row">
-          <article class="stat-card">
-            <span class="stat-label">GigaSpeech</span>
-            <strong>21.47% → 3.49%</strong>
-            <p>S<sup>2</sup>ER after 10 turns</p>
-          </article>
-          <article class="stat-card">
-            <span class="stat-label">WenetSpeech</span>
-            <strong>19.46% → 1.80%</strong>
-            <p>Semantic error reduction</p>
-          </article>
-          <article class="stat-card">
-            <span class="stat-label">ASRU2019</span>
-            <strong>28.57% → 1.36%</strong>
-            <p>Code-switch repair under interaction</p>
-          </article>
-          <article class="stat-card">
-            <span class="stat-label">LLM Judge</span>
-            <strong>r = 0.9031</strong>
-            <p>Human alignment on ASRU2019</p>
-          </article>
-        </div>
-
-        <article class="paper-panel results-hero">
-          <div class="results-copy">
-            <h3>Main performance trend</h3>
-            <p>
-              S<sup>2</sup>ER decreases monotonically on every benchmark. The first few turns produce the largest gains,
-              especially on GigaSpeech, WenetSpeech, AISHELL-NER, and ASRU2019.
-            </p>
-          </div>
-          <img src="static/images/tmm/main-results.png" alt="Main performance trend from Loop 0 to Loop 10" loading="lazy">
-        </article>
-
-        <div class="paper-panel table-panel">
-          <h3>Representative checkpoints from the latest paper</h3>
-          <div class="table-scroll">
-            <table>
-              <thead>
-                <tr>
-                  <th>Benchmark</th>
-                  <th>Loop 0</th>
-                  <th>Loop 1</th>
-                  <th>Loop 3</th>
-                  <th>Loop 10</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>GigaSpeech Test</td>
-                  <td>21.47%</td>
-                  <td>12.35%</td>
-                  <td>7.00%</td>
-                  <td>3.49%</td>
-                </tr>
-                <tr>
-                  <td>WenetSpeech Test_Net</td>
-                  <td>19.46%</td>
-                  <td>8.69%</td>
-                  <td>4.15%</td>
-                  <td>1.80%</td>
-                </tr>
-                <tr>
-                  <td>AISHELL-NER Dev†</td>
-                  <td>17.38%</td>
-                  <td>8.45%</td>
-                  <td>4.45%</td>
-                  <td>1.97%</td>
-                </tr>
-                <tr>
-                  <td>AISHELL-NER Test†</td>
-                  <td>19.91%</td>
-                  <td>9.55%</td>
-                  <td>5.47%</td>
-                  <td>2.02%</td>
-                </tr>
-                <tr>
-                  <td>CS-Dialogue Test†</td>
-                  <td>19.73%</td>
-                  <td>10.83%</td>
-                  <td>6.58%</td>
-                  <td>4.16%</td>
-                </tr>
-                <tr>
-                  <td>ASRU2019 Test</td>
-                  <td>28.57%</td>
-                  <td>10.32%</td>
-                  <td>3.98%</td>
-                  <td>1.36%</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="triple-figure-grid">
-          <article class="paper-panel">
-            <img src="static/images/tmm/asr-backbone-ablation.png" alt="Ablation on base ASR backbones" loading="lazy">
-            <h3>Backbone robustness</h3>
-            <p>
-              Even Whisper benefits from interaction. On ASRU2019, its S<sup>2</sup>ER drops from 46.32% to 3.75% after 10 turns.
-            </p>
-          </article>
-          <article class="paper-panel">
-            <img src="static/images/tmm/reasoner-ablation.png" alt="Ablation on LLM reasoner size" loading="lazy">
-            <h3>Reasoner scale matters</h3>
-            <p>
-              Qwen3-8B preserves the overall trend but remains behind the 32B setup, especially on precise local edits.
-            </p>
-          </article>
-          <article class="paper-panel">
-            <img src="static/images/tmm/judge-strategy.png" alt="LLM judge strategy ablation" loading="lazy">
-            <h3>Judge sweet spot</h3>
-            <p>
-              Majority-3 voting gives the best balance between reliability and cost, improving overall correlation from 0.8543 to 0.8628.
+            <img src="static/images/tmm/iss-framework.png" alt="Interactive Simulation System" loading="lazy">
+            <p class="figure-caption">
+              Interactive Simulation System (ISS) for automatic multi-round evaluation of Interactive ASR.
+              At each round, the S<sup>2</sup>ER Judger evaluates semantic equivalence between the current transcription and ground truth; if equivalence is not achieved, the User Simulator produces corrective spoken feedback for the next round.
             </p>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="section-band" id="demo">
+    <section class="section section-soft" id="results">
       <div class="container reveal">
-        <div class="section-heading">
-          <h2 class="section-title">Audio Demo</h2>
-          <p class="section-subtitle">
-            Representative correction loops across Mandarin, English, and code-switch speech. Each example includes the original utterance, spoken correction, and repaired transcript.
-          </p>
-        </div>
+        <h2 class="section-title">Result</h2>
+        <div class="results-layout">
+          <div class="results-table-panel">
+            <div class="result-group">
+              <h3>Multilingual</h3>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Benchmark</th>
+                    <th>Loop 0</th>
+                    <th>Loop 1</th>
+                    <th>Loop 3</th>
+                    <th>Loop 10</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>GigaSpeech Test</td>
+                    <td>21.47%</td>
+                    <td>12.35%</td>
+                    <td>7.00%</td>
+                    <td>3.49%</td>
+                  </tr>
+                  <tr>
+                    <td>WenetSpeech Test_Net</td>
+                    <td>19.46%</td>
+                    <td>8.69%</td>
+                    <td>4.15%</td>
+                    <td>1.80%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
-        <div class="demo-tabs" role="tablist" aria-label="Demo language tabs">
+            <div class="result-group">
+              <h3>Name Entity</h3>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Benchmark</th>
+                    <th>Loop 0</th>
+                    <th>Loop 1</th>
+                    <th>Loop 3</th>
+                    <th>Loop 10</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>AISHELL-NER Dev†</td>
+                    <td>17.38%</td>
+                    <td>8.45%</td>
+                    <td>4.45%</td>
+                    <td>1.97%</td>
+                  </tr>
+                  <tr>
+                    <td>AISHELL-NER Test†</td>
+                    <td>19.91%</td>
+                    <td>9.55%</td>
+                    <td>5.47%</td>
+                    <td>2.02%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="result-group">
+              <h3>Code Switching</h3>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Benchmark</th>
+                    <th>Loop 0</th>
+                    <th>Loop 1</th>
+                    <th>Loop 3</th>
+                    <th>Loop 10</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>CS-Dialogue Test†</td>
+                    <td>19.73%</td>
+                    <td>10.83%</td>
+                    <td>6.58%</td>
+                    <td>4.16%</td>
+                  </tr>
+                  <tr>
+                    <td>ASRU2019 Test</td>
+                    <td>28.57%</td>
+                    <td>10.32%</td>
+                    <td>3.98%</td>
+                    <td>1.36%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="results-figure-panel">
+            <img src="static/images/tmm/main-results.png" alt="Main results curve" loading="lazy">
+            <p class="figure-caption">
+              Performance trends of the proposed Agentic ASR framework from Loop 0 to Loop 10.
+              The upper panel shows S<sup>2</sup>ER across all benchmarks, while the lower panel reports conventional error rates (WER/CER/MER).
+              S<sup>2</sup>ER decreases consistently with more interaction, with the largest gains typically observed in the first few loops, whereas conventional token-level metrics improve more gradually.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="examples">
+      <div class="container reveal">
+        <h2 class="section-title">Examples</h2>
+
+        <div class="demo-tabs" role="tablist" aria-label="Example language tabs">
           <button class="demo-tab is-active" type="button" data-demo-tab="zh" aria-selected="true">Mandarin</button>
           <button class="demo-tab" type="button" data-demo-tab="en" aria-selected="false">English</button>
           <button class="demo-tab" type="button" data-demo-tab="cs" aria-selected="false">Code-switch</button>
         </div>
 
         <div class="demo-panel is-active" id="demo-zh" role="tabpanel">
-          <article class="paper-panel sample-card">
-            <div class="sample-head">
-              <div>
-                <h3>WenetSpeech Test_Net Example</h3>
-                <p class="sample-id">TEST_NET_Y0000000000_-KTKHdZ2fb8_S00043</p>
-              </div>
-              <span class="sample-tag">Two-round correction</span>
+          <article class="sample-card">
+            <div class="sample-header">
+              <span class="sample-id">ID: TEST_NET_Y0000000000_-KTKHdZ2fb8_S00043</span>
+              <span class="sample-badge">2 Rounds</span>
             </div>
-            <div class="sample-summary">
-              <p><strong>Ground truth:</strong> 吴克儿待会儿去趟监控室</p>
-              <p><strong>Error type:</strong> person name + phrase-level correction over two rounds</p>
-            </div>
-            <div class="audio-grid audio-grid-3">
-              <div class="audio-item">
-                <span>Reference audio</span>
-                <audio controls preload="none">
+            <div class="gt-box"><strong>Ground Truth:</strong> 吴克儿待会儿去趟监控室</div>
+            <div class="correction-flow">
+              <div class="flow-step">
+                <div class="step-label">Ground Truth Audio</div>
+                <audio controls>
                   <source src="static/audio/TEST_NET_Y0000000000_-KTKHdZ2fb8_S00043_gt.wav" type="audio/wav">
                 </audio>
               </div>
-              <div class="audio-item">
-                <span>Correction audio, round 1</span>
-                <audio controls preload="none">
+              <div class="flow-step">
+                <div class="step-label">Loop 0 - Initial ASR</div>
+                <div class="step-content error">吴克，带我去趟办公室。</div>
+              </div>
+              <div class="flow-step">
+                <div class="step-label">Human Correction</div>
+                <div class="step-content correction">不是吴克，是吴克儿。要纠正的是待会儿去监控室，不是带我去办公室。</div>
+                <audio controls>
                   <source src="static/audio/TEST_NET_Y0000000000_-KTKHdZ2fb8_S00043_round1.wav" type="audio/wav">
                 </audio>
               </div>
-              <div class="audio-item">
-                <span>Correction audio, round 2</span>
-                <audio controls preload="none">
+              <div class="flow-step">
+                <div class="step-label">Loop 1</div>
+                <div class="step-content warning">吴克儿，待会儿去监控室。</div>
+              </div>
+              <div class="flow-step">
+                <div class="step-label">Human Correction</div>
+                <div class="step-content correction">是去趟监控室，不是去监控室，有个趟字。</div>
+                <audio controls>
                   <source src="static/audio/TEST_NET_Y0000000000_-KTKHdZ2fb8_S00043_round2.wav" type="audio/wav">
                 </audio>
               </div>
-            </div>
-            <div class="timeline">
-              <div class="timeline-item timeline-item-error">
-                <span class="timeline-label">Loop 0</span>
-                <p>吴克，带我去趟办公室。</p>
-              </div>
-              <div class="timeline-item">
-                <span class="timeline-label">Human feedback</span>
-                <p>不是吴克，是吴克儿。要纠正的是待会儿去监控室，不是带我去办公室。</p>
-              </div>
-              <div class="timeline-item timeline-item-warning">
-                <span class="timeline-label">Loop 1</span>
-                <p>吴克儿，待会儿去监控室。</p>
-              </div>
-              <div class="timeline-item">
-                <span class="timeline-label">Human feedback</span>
-                <p>是去趟监控室，不是去监控室，有个趟字。</p>
-              </div>
-              <div class="timeline-item timeline-item-success">
-                <span class="timeline-label">Loop 2</span>
-                <p>吴克儿待会儿去趟监控室</p>
+              <div class="flow-step">
+                <div class="step-label">Loop 2 - Corrected</div>
+                <div class="step-content correct">吴克儿待会儿去趟监控室</div>
               </div>
             </div>
           </article>
         </div>
 
         <div class="demo-panel" id="demo-en" role="tabpanel" hidden>
-          <article class="paper-panel sample-card">
-            <div class="sample-head">
-              <div>
-                <h3>GigaSpeech-style Example</h3>
-                <p class="sample-id">YOU1000000143_S0000123</p>
-              </div>
-              <span class="sample-tag">Single-turn correction</span>
+          <article class="sample-card">
+            <div class="sample-header">
+              <span class="sample-id">ID: YOU1000000143_S0000123</span>
+              <span class="sample-badge">1 Round</span>
             </div>
-            <div class="sample-summary">
-              <p><strong>Ground truth:</strong> SO, AFTER GETTING OBAMA AND BIDEN ELECTED, I FELT THIS POWER TRIP.</p>
-              <p><strong>Error type:</strong> semantically important lexical confusion</p>
-            </div>
-            <div class="audio-grid audio-grid-2">
-              <div class="audio-item">
-                <span>Reference audio</span>
-                <audio controls preload="none">
+            <div class="gt-box"><strong>Ground Truth:</strong> SO, AFTER GETTING OBAMA AND BIDEN ELECTED, I FELT THIS POWER TRIP.</div>
+            <div class="correction-flow">
+              <div class="flow-step">
+                <div class="step-label">Ground Truth Audio</div>
+                <audio controls>
                   <source src="static/audio/YOU1000000143_S0000123_gt.wav" type="audio/wav">
                 </audio>
               </div>
-              <div class="audio-item">
-                <span>Correction audio</span>
-                <audio controls preload="none">
+              <div class="flow-step">
+                <div class="step-label">Loop 0 - Initial ASR</div>
+                <div class="step-content error">So after getting Obama Biden elected, I felt this power shift.</div>
+              </div>
+              <div class="flow-step">
+                <div class="step-label">Human Correction</div>
+                <div class="step-content correction">It is not "power shift", it is "power trip", T R I P. A feeling of inflated power.</div>
+                <audio controls>
                   <source src="static/audio/YOU1000000143_S0000123_round1.wav" type="audio/wav">
                 </audio>
               </div>
-            </div>
-            <div class="timeline">
-              <div class="timeline-item timeline-item-error">
-                <span class="timeline-label">Loop 0</span>
-                <p>So after getting Obama Biden elected, I felt this power shift.</p>
-              </div>
-              <div class="timeline-item">
-                <span class="timeline-label">Human feedback</span>
-                <p>It is not "power shift", it is "power trip", T R I P. A feeling of inflated power.</p>
-              </div>
-              <div class="timeline-item timeline-item-success">
-                <span class="timeline-label">Loop 1</span>
-                <p>So after getting Obama Biden elected, I felt this power trip.</p>
+              <div class="flow-step">
+                <div class="step-label">Loop 1 - Corrected</div>
+                <div class="step-content correct">So after getting Obama Biden elected, I felt this power trip.</div>
               </div>
             </div>
           </article>
         </div>
 
         <div class="demo-panel" id="demo-cs" role="tabpanel" hidden>
-          <article class="paper-panel sample-card">
-            <div class="sample-head">
-              <div>
-                <h3>ASRU2019 Code-switch Example</h3>
-                <p class="sample-id">00117</p>
-              </div>
-              <span class="sample-tag">Mandarin-English repair</span>
+          <article class="sample-card">
+            <div class="sample-header">
+              <span class="sample-id">ID: 00117</span>
+              <span class="sample-badge">1 Round</span>
             </div>
-            <div class="sample-summary">
-              <p><strong>Ground truth:</strong> 史上最厉害的 ATTENDEE 马上要出现了</p>
-              <p><strong>Error type:</strong> Mandarin-English word substitution in a mixed utterance</p>
-            </div>
-            <div class="audio-grid audio-grid-2">
-              <div class="audio-item">
-                <span>Reference audio</span>
-                <audio controls preload="none">
+            <div class="gt-box"><strong>Ground Truth:</strong> 史上最厉害的 ATTENDEE 马上要出现了</div>
+            <div class="correction-flow">
+              <div class="flow-step">
+                <div class="step-label">Ground Truth Audio</div>
+                <audio controls>
                   <source src="static/audio/00117_gt.wav" type="audio/wav">
                 </audio>
               </div>
-              <div class="audio-item">
-                <span>Correction audio</span>
-                <audio controls preload="none">
+              <div class="flow-step">
+                <div class="step-label">Loop 0 - Initial ASR</div>
+                <div class="step-content error">史上最厉害的 Attendant 马上就要出现了。</div>
+              </div>
+              <div class="flow-step">
+                <div class="step-label">Human Correction</div>
+                <div class="step-content correction">不是 Attendant，是英文单词 ATTENDEE，A T T E N D E E，意思是参加者。</div>
+                <audio controls>
                   <source src="static/audio/00117_round1.wav" type="audio/wav">
                 </audio>
               </div>
-            </div>
-            <div class="timeline">
-              <div class="timeline-item timeline-item-error">
-                <span class="timeline-label">Loop 0</span>
-                <p>史上最厉害的 Attendant 马上就要出现了。</p>
-              </div>
-              <div class="timeline-item">
-                <span class="timeline-label">Human feedback</span>
-                <p>不是 Attendant，是英文单词 ATTENDEE，A T T E N D E E，意思是参加者。</p>
-              </div>
-              <div class="timeline-item timeline-item-success">
-                <span class="timeline-label">Loop 1</span>
-                <p>史上最厉害的 Attendee 马上要出现了</p>
+              <div class="flow-step">
+                <div class="step-label">Loop 1 - Corrected</div>
+                <div class="step-content correct">史上最厉害的 Attendee 马上要出现了</div>
               </div>
             </div>
           </article>
@@ -482,55 +319,23 @@
       </div>
     </section>
 
-    <section class="section-band section-soft" id="resources">
-      <div class="container reveal">
-        <div class="section-heading">
-          <h2 class="section-title">Resources</h2>
-          <p class="section-subtitle">
-            This homepage serves as the canonical landing page for the Interactive ASR project line, with the latest content anchored to the TMM version.
-          </p>
+    <section class="section section-soft" id="citation">
+      <div class="container narrow reveal">
+        <h2 class="section-title centered">Citation</h2>
+        <div class="citation-panel">
+          <pre id="bibtex-code"></pre>
         </div>
-
-        <div class="highlight-grid resource-grid">
-          <article class="highlight-card">
-            <h3>Latest paper version</h3>
-            <p>All methods, figures, benchmark highlights, and demo narratives on this page reflect the latest Agentic ASR iteration.</p>
-          </article>
-          <a class="highlight-card resource-link" href="https://github.com/InteractiveASR/AgenticASR.git" target="_blank" rel="noopener">
-            <h3>Open-source repository</h3>
-            <p>Implementation, project assets, and release materials for the public Interactive ASR codebase.</p>
-          </a>
-          <a class="highlight-card resource-link" href="https://i-asr.sjtuxlance.com/" target="_blank" rel="noopener">
-            <h3>Live demo system</h3>
-            <p>Try the online interactive speech correction system directly in the browser.</p>
-          </a>
-          <article class="highlight-card">
-            <h3>Paper series</h3>
-            <p>The site unifies the two-paper project line while keeping the current presentation explicitly aligned with the latest version.</p>
-          </article>
-        </div>
-
-        <article class="paper-panel citation-panel" id="bibtex">
-          <div class="citation-header">
-            <div>
-              <h3>Citation</h3>
-              <p>If you find this project useful, please consider citing the project homepage.</p>
-            </div>
-            <button class="copy-bibtex-btn" type="button" data-copy-target="bibtex-code">
-              <i class="far fa-copy" aria-hidden="true"></i>
-              <span class="copy-text">Copy</span>
-            </button>
-          </div>
-          <pre id="bibtex-code">@misc{jiang_interactive_asr,
-  title = {Towards Human-Like Interactive Speech Recognition with Agentic Correction and Semantic Evaluation},
-  author = {Jiang, Zixuan and Zhu, Yanqiao and Wang, Peng and Chen, Qinyuan and Zhao, Xinjian and Qiu, Xipeng and Wang, Wupeng and Gao, Zhifu and Li, Xiangang and Yu, Kai and Chen, Xie},
-  howpublished = {\url{https://interactiveasr.github.io/}},
-  note = {Canonical project page for the latest Interactive ASR / Agentic ASR version}
-}</pre>
-        </article>
       </div>
     </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="container narrow footer-inner">
+      <p>
+        Acknowledgement: This website is inspired by the style of the FunASR project page and adapted for the Interactive ASR project.
+      </p>
+    </div>
+  </footer>
 
   <script src="static/js/index.js"></script>
 </body>
