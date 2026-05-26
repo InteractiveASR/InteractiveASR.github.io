@@ -39,18 +39,22 @@ a {
   filter: invert(1);
 }
 
-.paper-list {
-  max-width: 900px;
-  margin: 0 auto;
+.paper-grid {
+  margin-top: 0.5rem;
 }
 
-.paper-entry {
-  padding: 1.1rem 0;
-  text-align: center;
+.paper-card {
+  height: 100%;
+  padding: 1.35rem 1.4rem;
+  border: 1px solid #e7e7e7;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.04);
+  text-align: left;
 }
 
-.paper-entry + .paper-entry {
-  border-top: 1px solid #ececec;
+.paper-card-empty {
+  opacity: 0.88;
 }
 
 .paper-title {
@@ -71,6 +75,7 @@ a {
 }
 
 .paper-authors {
+  min-height: 3.7rem;
   margin: 0;
   font-size: 0.92rem;
   line-height: 1.65;
@@ -277,7 +282,8 @@ a {
 }
 
 .audio-step {
-  max-width: 60%;
+  max-width: 68%;
+  min-width: 280px;
 }
 
 .step-label {
@@ -333,14 +339,15 @@ a {
 }
 
 pre {
-  background: #f5f5f5;
-  color: #4a4a4a;
+  background: #111827;
+  color: #e5edf8;
   border-radius: 8px;
-  padding: 1rem;
+  padding: 1.1rem 1.2rem;
   overflow-x: auto;
   white-space: pre-wrap;
   word-break: break-word;
   line-height: 1.7;
+  border: 1px solid #1f2937;
 }
 
 .footer .content p {
@@ -359,6 +366,7 @@ pre {
   .audio-step {
     align-self: stretch;
     max-width: 100%;
+    min-width: 0;
   }
 
   .user-step .step-label,
