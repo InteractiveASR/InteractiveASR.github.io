@@ -10,8 +10,8 @@ a {
 .publication-title {
   font-family: 'Google Sans', sans-serif;
   font-weight: 700;
-  line-height: 1.1;
-  margin-bottom: 1.5rem !important;
+  line-height: 1.08;
+  margin-bottom: 1.4rem !important;
 }
 
 .publication-links {
@@ -19,29 +19,114 @@ a {
   justify-content: center;
   flex-wrap: wrap;
   gap: 0.75rem;
+  margin-bottom: 2rem;
 }
 
 .link-block {
   display: inline-flex;
 }
 
+.button .icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-icon {
+  width: 1rem;
+  height: 1rem;
+  display: block;
+  filter: invert(1);
+}
+
+.paper-grid {
+  margin-top: 0.5rem;
+}
+
+.paper-card {
+  height: 100%;
+  padding: 1.35rem 1.4rem;
+  border: 1px solid #e7e7e7;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.04);
+  text-align: left;
+}
+
+.paper-card-empty {
+  opacity: 0.88;
+}
+
+.paper-label {
+  margin-bottom: 0.55rem;
+  color: #7a7a7a;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.paper-title {
+  margin: 0 0 0.75rem;
+  font-family: 'Google Sans', sans-serif;
+  font-size: 1.06rem;
+  line-height: 1.45;
+  color: #222;
+}
+
+.paper-authors {
+  min-height: 3.5rem;
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: #636363;
+}
+
+.paper-authors-muted {
+  color: transparent;
+}
+
+.paper-actions {
+  margin-top: 1rem;
+}
+
 .teaser .hero-body {
-  padding-top: 1.5rem;
-  padding-bottom: 3rem;
+  padding-top: 1.2rem;
+  padding-bottom: 2.5rem;
+}
+
+.teaser-body {
+  text-align: center;
+}
+
+.teaser-media-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.teaser-pdf {
+  width: min(100%, 1320px);
+  height: min(76vw, 780px);
+  border: none;
+  display: block;
+  margin: 0 auto;
 }
 
 .teaser-image {
   width: 100%;
-  max-width: 1100px;
-  margin: 0 auto 1rem;
+  max-width: 1320px;
+  margin: 0 auto;
   display: block;
 }
 
-.subtitle.has-text-centered {
-  max-width: 960px;
-  margin: 0 auto;
-  font-size: 1rem;
-  line-height: 1.7;
+.figure-mini-caption {
+  max-width: 920px;
+  margin: 0.8rem auto 0;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: #6b7280;
+  text-align: center;
 }
 
 .abstract-content {
@@ -49,30 +134,31 @@ a {
   line-height: 1.85;
 }
 
-.method-title,
-.result-group-title {
-  font-family: 'Google Sans', sans-serif;
+.method-columns {
+  align-items: stretch;
+}
+
+.method-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .method-image,
 .result-figure {
+  width: 100%;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .method-image {
-  margin-bottom: 1rem;
+  aspect-ratio: 1.55 / 1;
+  object-fit: contain;
+  background: #fff;
 }
 
-.method-caption {
-  text-align: left;
-  font-size: 0.98rem;
-  line-height: 1.75;
-  color: #5f6368;
-}
-
-.result-block + .result-block {
-  margin-top: 1.5rem;
+.result-block {
+  margin-bottom: 2rem;
 }
 
 .result-table th,
@@ -81,13 +167,18 @@ a {
   vertical-align: middle;
 }
 
-.result-figure-wrap {
-  position: sticky;
-  top: 2rem;
+.wide-figure {
+  max-width: 960px;
+  margin: 0 auto;
+  display: block;
+}
+
+.examples-shell {
+  max-width: 920px;
 }
 
 .example-tabs {
-  margin-bottom: 2rem;
+  margin-bottom: 1.75rem;
 }
 
 .tab-btn {
@@ -173,27 +264,30 @@ a {
 .correction-flow {
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
+  gap: 0.95rem;
+}
+
+.dialogue-flow {
+  max-width: 760px;
+  margin: 0 auto;
 }
 
 .flow-step {
   display: flex;
   flex-direction: column;
-  max-width: 78%;
+  max-width: 72%;
 }
 
-.flow-step.asr-step {
+.user-step {
   align-self: flex-start;
 }
 
-.flow-step.loop-step {
-  align-self: center;
-  max-width: 92%;
-  text-align: center;
+.model-step {
+  align-self: flex-end;
 }
 
-.flow-step:not(.asr-step):not(.loop-step) {
-  align-self: flex-end;
+.audio-step {
+  max-width: 56%;
 }
 
 .step-label {
@@ -205,61 +299,47 @@ a {
   color: #7a7a7a;
 }
 
-.flow-step.asr-step .step-label {
+.user-step .step-label {
   text-align: left;
 }
 
-.flow-step.loop-step .step-label {
-  text-align: center;
-}
-
-.flow-step:not(.asr-step):not(.loop-step) .step-label {
+.model-step .step-label {
   text-align: right;
 }
 
 .step-content {
-  padding: 0.85rem 1rem;
+  padding: 0.9rem 1rem;
   border-radius: 16px;
   font-size: 0.96rem;
   line-height: 1.65;
 }
 
-.flow-step.asr-step .step-content {
-  background: #e9f3ff;
+.user-bubble {
+  background: #edf4ff;
   border-bottom-left-radius: 4px;
 }
 
-.flow-step:not(.asr-step):not(.loop-step) .step-content {
+.model-bubble {
   background: #eef8f1;
   border-bottom-right-radius: 4px;
 }
 
-.flow-step.loop-step .step-content {
-  border-radius: 10px;
-  text-align: center;
+.model-bubble.error {
+  color: #8c2f2f;
 }
 
-.step-content.error {
-  color: #9f2d2d;
-}
-
-.step-content.warning {
+.model-bubble.warning {
   color: #8a6100;
 }
 
-.step-content.correction {
-  color: #1d4f91;
-}
-
-.step-content.correct {
-  background: #eef8f1;
-  color: #227a4d;
+.model-bubble.correct {
+  color: #1f7a4c;
   font-weight: 700;
 }
 
 .flow-step audio {
-  width: 280px;
-  margin-top: 0.5rem;
+  width: 100%;
+  display: block;
 }
 
 pre {
@@ -274,37 +354,31 @@ pre {
   font-size: 0.95rem;
 }
 
-@media screen and (max-width: 1023px) {
-  .result-figure-wrap {
-    position: static;
-  }
-}
-
 @media screen and (max-width: 768px) {
   .sample-header {
     flex-direction: column;
     align-items: flex-start;
   }
 
+  .teaser-pdf {
+    height: 62vw;
+    min-height: 260px;
+  }
+
   .flow-step,
-  .flow-step.asr-step,
-  .flow-step.loop-step,
-  .flow-step:not(.asr-step):not(.loop-step) {
+  .user-step,
+  .model-step,
+  .audio-step {
     align-self: stretch;
     max-width: 100%;
   }
 
-  .flow-step:not(.asr-step):not(.loop-step) .step-label,
-  .flow-step.asr-step .step-label,
-  .flow-step.loop-step .step-label {
+  .user-step .step-label,
+  .model-step .step-label {
     text-align: left;
   }
 
-  .flow-step audio {
-    width: 100%;
-  }
-
-  .subtitle.has-text-centered {
-    font-size: 0.95rem;
+  .figure-mini-caption {
+    font-size: 0.84rem;
   }
 }

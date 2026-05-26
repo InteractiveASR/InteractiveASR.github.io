@@ -23,7 +23,9 @@
               <span class="link-block">
                 <a href="https://github.com/InteractiveASR/AgenticASR.git" target="_blank" rel="noopener" class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
-                    <i class="fab fa-github"></i>
+                    <svg class="button-icon" viewBox="0 0 24 24" aria-hidden="true">
+                      <path fill="currentColor" d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2.16c-3.2.69-3.88-1.35-3.88-1.35-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.18 1.77 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.74.4-1.25.73-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.25.45-2.27 1.17-3.07-.12-.29-.51-1.47.11-3.06 0 0 .96-.31 3.14 1.17a10.9 10.9 0 0 1 5.72 0c2.18-1.48 3.14-1.17 3.14-1.17.62 1.59.23 2.77.11 3.06.73.8 1.17 1.82 1.17 3.07 0 4.41-2.69 5.39-5.26 5.67.41.35.78 1.05.78 2.12v3.14c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/>
+                    </svg>
                   </span>
                   <span>GitHub</span>
                 </a>
@@ -31,7 +33,9 @@
               <span class="link-block">
                 <a href="https://i-asr.sjtuxlance.com/" target="_blank" rel="noopener" class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
-                    <i class="fas fa-wave-square"></i>
+                    <svg class="button-icon" viewBox="0 0 24 24" aria-hidden="true">
+                      <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2Zm-2 14.5v-9l7 4.5-7 4.5Z"/>
+                    </svg>
                   </span>
                   <span>Live Demo</span>
                 </a>
@@ -39,20 +43,46 @@
             </div>
           </div>
         </div>
+
+        <div class="columns is-variable is-6 paper-grid">
+          <div class="column">
+            <article class="paper-card">
+              <p class="paper-label">Paper 1</p>
+              <h2 class="paper-title">Interactive ASR: Towards Human-Like Interaction and Semantic Coherence Evaluation for Agentic Speech Recognition</h2>
+              <p class="paper-authors">
+                Peng Wang, Yanqiao Zhu, Zixuan Jiang, Qinyuan Chen, Xingjian Zhao, Xipeng Qiu, Wupeng Wang, Zhifu Gao, Xiangang Li, Kai Yu, Xie Chen
+              </p>
+              <div class="paper-actions">
+                <a href="https://arxiv.org/abs/2604.09121" target="_blank" rel="noopener" class="button is-small is-rounded is-dark">Paper</a>
+              </div>
+            </article>
+          </div>
+          <div class="column">
+            <article class="paper-card paper-card-empty">
+              <p class="paper-label">Paper 2</p>
+              <h2 class="paper-title">Coming Soon</h2>
+              <p class="paper-authors paper-authors-muted">&nbsp;</p>
+              <div class="paper-actions">
+                <a class="button is-small is-rounded is-dark is-static">Paper</a>
+              </div>
+            </article>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <section class="hero teaser">
-    <div class="container is-max-desktop">
-      <div class="hero-body">
-        <img src="static/images/tmm/teaser-from-pdf.png" alt="Interactive ASR teaser figure" class="teaser-image">
-        <h2 class="subtitle has-text-centered">
-          <strong>Comparison between daily human communication, the traditional ASR paradigm, and the proposed Agentic ASR paradigm. </strong>
-          In natural conversations, misunderstandings can be progressively corrected through multi-turn interactions.
-          In contrast, conventional ASR systems operate in a one-shot, open-loop manner, where recognition errors (e.g., confusing "Megan" with "Morgan") cannot be effectively corrected once produced.
-          The Agentic ASR paradigm introduces a closed-loop mechanism that incorporates user feedback, enabling iterative refinement of transcription results and more accurate understanding.
-        </h2>
+    <div class="container is-max-widescreen">
+      <div class="hero-body teaser-body">
+        <div class="teaser-media-wrap">
+          <object data="static/pdfs/teaser.pdf" type="application/pdf" class="teaser-pdf" aria-label="Interactive ASR teaser PDF">
+            <img src="static/images/tmm/teaser-from-pdf.png" alt="Interactive ASR teaser figure" class="teaser-image">
+          </object>
+        </div>
+        <p class="figure-mini-caption">
+          Comparison between daily human communication, the traditional ASR paradigm, and the proposed Agentic ASR paradigm.
+        </p>
       </div>
     </div>
   </section>
@@ -85,26 +115,17 @@
           <h2 class="title is-3">Method</h2>
         </div>
       </div>
-      <div class="columns is-centered">
+      <div class="columns is-variable is-6 is-centered method-columns">
         <div class="column">
-          <div class="content has-text-centered">
-            <h3 class="title is-5 method-title">Agentic ASR</h3>
+          <div class="content has-text-centered method-card">
             <img src="static/images/tmm/interactive-framework.png" alt="Agentic ASR framework" class="method-image">
-            <p class="method-caption">
-              Agentic ASR framework. At turn <em>t</em>, an ASR front-end first produces a hypothesis <em>H<sub>t</sub></em> from user speech input <em>I<sub>t</sub></em>.
-              An LLM module then performs semantic correction and intent routing into three intent types: <em>confirmation</em>, <em>new input</em>, and <em>correction</em>.
-              For <em>correction</em> intents, a structured <em>Locate--Reason--Modify</em> pipeline identifies the editable span, infers the intended edit from instruction and history, and applies the edit to update the transcription state.
-            </p>
+            <p class="figure-mini-caption"><strong>Agentic ASR</strong></p>
           </div>
         </div>
         <div class="column">
-          <div class="content has-text-centered">
-            <h3 class="title is-5 method-title">Interactive Simulation System</h3>
+          <div class="content has-text-centered method-card">
             <img src="static/images/tmm/iss-framework.png" alt="Interactive Simulation System" class="method-image">
-            <p class="method-caption">
-              Interactive Simulation System (ISS) for automatic multi-round evaluation of Interactive ASR.
-              At each round, the S<sup>2</sup>ER Judger evaluates semantic equivalence between the current transcription and ground truth; if equivalence is not achieved, the User Simulator produces corrective spoken feedback for the next round.
-            </p>
+            <p class="figure-mini-caption"><strong>Interactive Simulation System</strong></p>
           </div>
         </div>
       </div>
@@ -118,13 +139,14 @@
           <h2 class="title is-3">Result</h2>
         </div>
       </div>
-      <div class="columns is-variable is-6">
-        <div class="column is-half">
+
+      <div class="columns is-centered">
+        <div class="column is-full">
           <div class="result-block">
-            <h3 class="title is-5 result-group-title">Multilingual</h3>
             <table class="table is-fullwidth is-striped result-table">
               <thead>
                 <tr>
+                  <th>Category</th>
                   <th>Benchmark</th>
                   <th>Loop 0</th>
                   <th>Loop 1</th>
@@ -134,6 +156,7 @@
               </thead>
               <tbody>
                 <tr>
+                  <td>Multilingual</td>
                   <td>GigaSpeech Test</td>
                   <td>21.47%</td>
                   <td>12.35%</td>
@@ -141,29 +164,15 @@
                   <td>3.49%</td>
                 </tr>
                 <tr>
+                  <td>Multilingual</td>
                   <td>WenetSpeech Test_Net</td>
                   <td>19.46%</td>
                   <td>8.69%</td>
                   <td>4.15%</td>
                   <td>1.80%</td>
                 </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="result-block">
-            <h3 class="title is-5 result-group-title">Name Entity</h3>
-            <table class="table is-fullwidth is-striped result-table">
-              <thead>
                 <tr>
-                  <th>Benchmark</th>
-                  <th>Loop 0</th>
-                  <th>Loop 1</th>
-                  <th>Loop 3</th>
-                  <th>Loop 10</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
+                  <td>Name Entity</td>
                   <td>AISHELL-NER Dev†</td>
                   <td>17.38%</td>
                   <td>8.45%</td>
@@ -171,29 +180,15 @@
                   <td>1.97%</td>
                 </tr>
                 <tr>
+                  <td>Name Entity</td>
                   <td>AISHELL-NER Test†</td>
                   <td>19.91%</td>
                   <td>9.55%</td>
                   <td>5.47%</td>
                   <td>2.02%</td>
                 </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="result-block">
-            <h3 class="title is-5 result-group-title">Code Switching</h3>
-            <table class="table is-fullwidth is-striped result-table">
-              <thead>
                 <tr>
-                  <th>Benchmark</th>
-                  <th>Loop 0</th>
-                  <th>Loop 1</th>
-                  <th>Loop 3</th>
-                  <th>Loop 10</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
+                  <td>Code Switching</td>
                   <td>CS-Dialogue Test†</td>
                   <td>19.73%</td>
                   <td>10.83%</td>
@@ -201,6 +196,7 @@
                   <td>4.16%</td>
                 </tr>
                 <tr>
+                  <td>Code Switching</td>
                   <td>ASRU2019 Test</td>
                   <td>28.57%</td>
                   <td>10.32%</td>
@@ -211,23 +207,19 @@
             </table>
           </div>
         </div>
+      </div>
 
-        <div class="column is-half">
-          <div class="content has-text-centered result-figure-wrap">
-            <img src="static/images/tmm/main-results.png" alt="Main results curve" class="result-figure">
-            <p class="method-caption">
-              Performance trends of the proposed Agentic ASR framework from Loop 0 to Loop 10.
-              The upper panel shows S<sup>2</sup>ER across all benchmarks, while the lower panel reports conventional error rates (WER/CER/MER).
-              S<sup>2</sup>ER decreases consistently with more interaction, with the largest gains typically observed in the first few loops, whereas conventional token-level metrics improve more gradually.
-            </p>
-          </div>
+      <div class="columns is-centered">
+        <div class="column is-full has-text-centered">
+          <img src="static/images/tmm/asr-backbone-ablation.png" alt="Different Base ASR Model Ablation" class="result-figure wide-figure">
+          <p class="figure-mini-caption"><strong>Different Base ASR Model Ablation</strong></p>
         </div>
       </div>
     </div>
   </section>
 
   <section class="section">
-    <div class="container is-max-desktop">
+    <div class="container is-max-desktop examples-shell">
       <div class="columns is-centered has-text-centered">
         <div class="column is-full">
           <h2 class="title is-3">Examples</h2>
@@ -247,38 +239,50 @@
             <span class="tag">2 Rounds</span>
           </div>
           <div class="gt-box"><strong>Ground Truth:</strong> 吴克儿待会儿去趟监控室</div>
-          <div class="correction-flow">
-            <div class="flow-step">
-              <div class="step-label">Ground Truth Audio</div>
-              <audio controls>
-                <source src="static/audio/TEST_NET_Y0000000000_-KTKHdZ2fb8_S00043_gt.wav" type="audio/wav">
-              </audio>
+          <div class="correction-flow dialogue-flow">
+            <div class="flow-step user-step audio-step">
+              <div class="step-label">User Audio</div>
+              <div class="step-content user-bubble">
+                <audio controls>
+                  <source src="static/audio/TEST_NET_Y0000000000_-KTKHdZ2fb8_S00043_gt.wav" type="audio/wav">
+                </audio>
+              </div>
             </div>
-            <div class="flow-step asr-step">
-              <div class="step-label">Loop 0 - Initial ASR</div>
-              <div class="step-content error">吴克，带我去趟办公室。</div>
+            <div class="flow-step model-step">
+              <div class="step-label">Model Output</div>
+              <div class="step-content model-bubble error">Loop 0: 吴克，带我去趟办公室。</div>
             </div>
-            <div class="flow-step">
-              <div class="step-label">Human Correction</div>
-              <div class="step-content correction">不是吴克，是吴克儿。要纠正的是待会儿去监控室，不是带我去办公室。</div>
-              <audio controls>
-                <source src="static/audio/TEST_NET_Y0000000000_-KTKHdZ2fb8_S00043_round1.wav" type="audio/wav">
-              </audio>
+            <div class="flow-step user-step">
+              <div class="step-label">User Correction</div>
+              <div class="step-content user-bubble">不是吴克，是吴克儿。要纠正的是待会儿去监控室，不是带我去办公室。</div>
             </div>
-            <div class="flow-step asr-step">
-              <div class="step-label">Loop 1</div>
-              <div class="step-content warning">吴克儿，待会儿去监控室。</div>
+            <div class="flow-step user-step audio-step">
+              <div class="step-label">User Audio</div>
+              <div class="step-content user-bubble">
+                <audio controls>
+                  <source src="static/audio/TEST_NET_Y0000000000_-KTKHdZ2fb8_S00043_round1.wav" type="audio/wav">
+                </audio>
+              </div>
             </div>
-            <div class="flow-step">
-              <div class="step-label">Human Correction</div>
-              <div class="step-content correction">是去趟监控室，不是去监控室，有个趟字。</div>
-              <audio controls>
-                <source src="static/audio/TEST_NET_Y0000000000_-KTKHdZ2fb8_S00043_round2.wav" type="audio/wav">
-              </audio>
+            <div class="flow-step model-step">
+              <div class="step-label">Model Output</div>
+              <div class="step-content model-bubble warning">Loop 1: 吴克儿，待会儿去监控室。</div>
             </div>
-            <div class="flow-step loop-step">
-              <div class="step-label">Loop 2 - Corrected</div>
-              <div class="step-content correct">吴克儿待会儿去趟监控室</div>
+            <div class="flow-step user-step">
+              <div class="step-label">User Correction</div>
+              <div class="step-content user-bubble">是去趟监控室，不是去监控室，有个趟字。</div>
+            </div>
+            <div class="flow-step user-step audio-step">
+              <div class="step-label">User Audio</div>
+              <div class="step-content user-bubble">
+                <audio controls>
+                  <source src="static/audio/TEST_NET_Y0000000000_-KTKHdZ2fb8_S00043_round2.wav" type="audio/wav">
+                </audio>
+              </div>
+            </div>
+            <div class="flow-step model-step">
+              <div class="step-label">Model Output</div>
+              <div class="step-content model-bubble correct">Loop 2: 吴克儿待会儿去趟监控室</div>
             </div>
           </div>
         </div>
@@ -291,27 +295,34 @@
             <span class="tag">1 Round</span>
           </div>
           <div class="gt-box"><strong>Ground Truth:</strong> SO, AFTER GETTING OBAMA AND BIDEN ELECTED, I FELT THIS POWER TRIP.</div>
-          <div class="correction-flow">
-            <div class="flow-step">
-              <div class="step-label">Ground Truth Audio</div>
-              <audio controls>
-                <source src="static/audio/YOU1000000143_S0000123_gt.wav" type="audio/wav">
-              </audio>
+          <div class="correction-flow dialogue-flow">
+            <div class="flow-step user-step audio-step">
+              <div class="step-label">User Audio</div>
+              <div class="step-content user-bubble">
+                <audio controls>
+                  <source src="static/audio/YOU1000000143_S0000123_gt.wav" type="audio/wav">
+                </audio>
+              </div>
             </div>
-            <div class="flow-step asr-step">
-              <div class="step-label">Loop 0 - Initial ASR</div>
-              <div class="step-content error">So after getting Obama Biden elected, I felt this power shift.</div>
+            <div class="flow-step model-step">
+              <div class="step-label">Model Output</div>
+              <div class="step-content model-bubble error">Loop 0: So after getting Obama Biden elected, I felt this power shift.</div>
             </div>
-            <div class="flow-step">
-              <div class="step-label">Human Correction</div>
-              <div class="step-content correction">It is not "power shift", it is "power trip", T R I P. A feeling of inflated power.</div>
-              <audio controls>
-                <source src="static/audio/YOU1000000143_S0000123_round1.wav" type="audio/wav">
-              </audio>
+            <div class="flow-step user-step">
+              <div class="step-label">User Correction</div>
+              <div class="step-content user-bubble">It is not "power shift", it is "power trip", T R I P. A feeling of inflated power.</div>
             </div>
-            <div class="flow-step loop-step">
-              <div class="step-label">Loop 1 - Corrected</div>
-              <div class="step-content correct">So after getting Obama Biden elected, I felt this power trip.</div>
+            <div class="flow-step user-step audio-step">
+              <div class="step-label">User Audio</div>
+              <div class="step-content user-bubble">
+                <audio controls>
+                  <source src="static/audio/YOU1000000143_S0000123_round1.wav" type="audio/wav">
+                </audio>
+              </div>
+            </div>
+            <div class="flow-step model-step">
+              <div class="step-label">Model Output</div>
+              <div class="step-content model-bubble correct">Loop 1: So after getting Obama Biden elected, I felt this power trip.</div>
             </div>
           </div>
         </div>
@@ -324,27 +335,34 @@
             <span class="tag">1 Round</span>
           </div>
           <div class="gt-box"><strong>Ground Truth:</strong> 史上最厉害的 ATTENDEE 马上要出现了</div>
-          <div class="correction-flow">
-            <div class="flow-step">
-              <div class="step-label">Ground Truth Audio</div>
-              <audio controls>
-                <source src="static/audio/00117_gt.wav" type="audio/wav">
-              </audio>
+          <div class="correction-flow dialogue-flow">
+            <div class="flow-step user-step audio-step">
+              <div class="step-label">User Audio</div>
+              <div class="step-content user-bubble">
+                <audio controls>
+                  <source src="static/audio/00117_gt.wav" type="audio/wav">
+                </audio>
+              </div>
             </div>
-            <div class="flow-step asr-step">
-              <div class="step-label">Loop 0 - Initial ASR</div>
-              <div class="step-content error">史上最厉害的 Attendant 马上就要出现了。</div>
+            <div class="flow-step model-step">
+              <div class="step-label">Model Output</div>
+              <div class="step-content model-bubble error">Loop 0: 史上最厉害的 Attendant 马上就要出现了。</div>
             </div>
-            <div class="flow-step">
-              <div class="step-label">Human Correction</div>
-              <div class="step-content correction">不是 Attendant，是英文单词 ATTENDEE，A T T E N D E E，意思是参加者。</div>
-              <audio controls>
-                <source src="static/audio/00117_round1.wav" type="audio/wav">
-              </audio>
+            <div class="flow-step user-step">
+              <div class="step-label">User Correction</div>
+              <div class="step-content user-bubble">不是 Attendant，是英文单词 ATTENDEE，A T T E N D E E，意思是参加者。</div>
             </div>
-            <div class="flow-step loop-step">
-              <div class="step-label">Loop 1 - Corrected</div>
-              <div class="step-content correct">史上最厉害的 Attendee 马上要出现了</div>
+            <div class="flow-step user-step audio-step">
+              <div class="step-label">User Audio</div>
+              <div class="step-content user-bubble">
+                <audio controls>
+                  <source src="static/audio/00117_round1.wav" type="audio/wav">
+                </audio>
+              </div>
+            </div>
+            <div class="flow-step model-step">
+              <div class="step-label">Model Output</div>
+              <div class="step-content model-bubble correct">Loop 1: 史上最厉害的 Attendee 马上要出现了</div>
             </div>
           </div>
         </div>
