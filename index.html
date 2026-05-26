@@ -4,190 +4,218 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Interactive ASR</title>
-  <meta name="description" content="Interactive ASR project page with method, results, examples, and citation.">
+
   <link rel="stylesheet" href="static/css/bulma.min.css">
   <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;800&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
   <link rel="stylesheet" href="static/css/index.css">
 </head>
 <body>
-  <main>
-    <section class="hero-section">
-      <div class="container narrow hero-inner reveal">
-        <h1>Interactive ASR</h1>
-        <div class="hero-actions">
-          <a class="hero-button" href="https://github.com/InteractiveASR/AgenticASR.git" target="_blank" rel="noopener">
-            <i class="fab fa-github" aria-hidden="true"></i>
-            <span>GitHub</span>
-          </a>
-          <a class="hero-button" href="https://i-asr.sjtuxlance.com/" target="_blank" rel="noopener">
-            <i class="fas fa-wave-square" aria-hidden="true"></i>
-            <span>Live Demo</span>
-          </a>
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">Interactive ASR</h1>
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="https://github.com/InteractiveASR/AgenticASR.git" target="_blank" rel="noopener" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fab fa-github"></i>
+                  </span>
+                  <span>GitHub</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://i-asr.sjtuxlance.com/" target="_blank" rel="noopener" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fas fa-wave-square"></i>
+                  </span>
+                  <span>Live Demo</span>
+                </a>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="section">
-      <div class="container narrow reveal">
-        <figure class="main-figure">
-          <img src="static/images/tmm/teaser-from-pdf.png" alt="Interactive ASR teaser figure" loading="lazy">
-        </figure>
-        <p class="figure-caption">
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <img src="static/images/tmm/teaser-from-pdf.png" alt="Interactive ASR teaser figure" class="teaser-image">
+        <h2 class="subtitle has-text-centered">
           <strong>Comparison between daily human communication, the traditional ASR paradigm, and the proposed Agentic ASR paradigm. </strong>
           In natural conversations, misunderstandings can be progressively corrected through multi-turn interactions.
           In contrast, conventional ASR systems operate in a one-shot, open-loop manner, where recognition errors (e.g., confusing "Megan" with "Morgan") cannot be effectively corrected once produced.
           The Agentic ASR paradigm introduces a closed-loop mechanism that incorporates user feedback, enabling iterative refinement of transcription results and more accurate understanding.
-        </p>
+        </h2>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="section section-soft">
-      <div class="container narrow reveal">
-        <h2 class="section-title centered">Abstract</h2>
-        <div class="text-panel centered-text">
-          <p>
-            Automatic speech recognition (ASR) is a core component of human-computer interaction and an increasingly important front-end for LLM-based assistants and agents.
-            However, most current ASR systems still follow a single-pass paradigm, which is poorly aligned with human communication, where misunderstandings are resolved through iterative clarification and refinement.
-            This mismatch makes it difficult to correct meaning-critical errors once they occur. Meanwhile, token-level metrics such as WER or CER cannot adequately reflect such a problem.
-            To address these limitations, we formulate <em>Interactive ASR</em> as a multi-turn refinement task and propose <strong>Agentic ASR</strong>, a closed-loop framework that combines a single-pass ASR front-end with semantic correction, intent routing, and reasoning-based editing.
-            We further introduce the <strong>Sentence-level Semantic Error Rate (S<sup>2</sup>ER)</strong>, an LLM-based semantic evaluation metric, together with an <strong>Interactive Simulation System</strong> for scalable and reproducible benchmarking.
-            Experiments on multilingual, named-entity-intensive, and code-switching benchmarks show that iterative interaction consistently reduces semantic errors, with much larger gains in S<sup>2</sup>ER than in conventional token-level metrics.
-            Human-AI alignment and ablation studies further validate the reliability of the semantic judge and the robustness of the proposed framework.
-          </p>
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified abstract-content">
+            <p>
+              Automatic speech recognition (ASR) is a core component of human-computer interaction and an increasingly important front-end for LLM-based assistants and agents.
+              However, most current ASR systems still follow a single-pass paradigm, which is poorly aligned with human communication, where misunderstandings are resolved through iterative clarification and refinement.
+              This mismatch makes it difficult to correct meaning-critical errors once they occur. Meanwhile, token-level metrics such as WER or CER cannot adequately reflect such a problem.
+              To address these limitations, we formulate <em>Interactive ASR</em> as a multi-turn refinement task and propose <strong>Agentic ASR</strong>, a closed-loop framework that combines a single-pass ASR front-end with semantic correction, intent routing, and reasoning-based editing.
+              We further introduce the <strong>Sentence-level Semantic Error Rate (S<sup>2</sup>ER)</strong>, an LLM-based semantic evaluation metric, together with an <strong>Interactive Simulation System</strong> for scalable and reproducible benchmarking.
+              Experiments on multilingual, named-entity-intensive, and code-switching benchmarks show that iterative interaction consistently reduces semantic errors, with much larger gains in S<sup>2</sup>ER than in conventional token-level metrics.
+              Human-AI alignment and ablation studies further validate the reliability of the semantic judge and the robustness of the proposed framework.
+            </p>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="section" id="method">
-      <div class="container reveal">
-        <h2 class="section-title">Method</h2>
-        <div class="method-grid">
-          <article class="figure-panel">
-            <h3>Agentic ASR</h3>
-            <img src="static/images/tmm/interactive-framework.png" alt="Agentic ASR framework" loading="lazy">
-            <p class="figure-caption">
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full">
+          <h2 class="title is-3">Method</h2>
+        </div>
+      </div>
+      <div class="columns is-centered">
+        <div class="column">
+          <div class="content has-text-centered">
+            <h3 class="title is-5 method-title">Agentic ASR</h3>
+            <img src="static/images/tmm/interactive-framework.png" alt="Agentic ASR framework" class="method-image">
+            <p class="method-caption">
               Agentic ASR framework. At turn <em>t</em>, an ASR front-end first produces a hypothesis <em>H<sub>t</sub></em> from user speech input <em>I<sub>t</sub></em>.
               An LLM module then performs semantic correction and intent routing into three intent types: <em>confirmation</em>, <em>new input</em>, and <em>correction</em>.
               For <em>correction</em> intents, a structured <em>Locate--Reason--Modify</em> pipeline identifies the editable span, infers the intended edit from instruction and history, and applies the edit to update the transcription state.
             </p>
-          </article>
-          <article class="figure-panel">
-            <h3>Interactive Simulation System</h3>
-            <img src="static/images/tmm/iss-framework.png" alt="Interactive Simulation System" loading="lazy">
-            <p class="figure-caption">
+          </div>
+        </div>
+        <div class="column">
+          <div class="content has-text-centered">
+            <h3 class="title is-5 method-title">Interactive Simulation System</h3>
+            <img src="static/images/tmm/iss-framework.png" alt="Interactive Simulation System" class="method-image">
+            <p class="method-caption">
               Interactive Simulation System (ISS) for automatic multi-round evaluation of Interactive ASR.
               At each round, the S<sup>2</sup>ER Judger evaluates semantic equivalence between the current transcription and ground truth; if equivalence is not achieved, the User Simulator produces corrective spoken feedback for the next round.
             </p>
-          </article>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="section section-soft" id="results">
-      <div class="container reveal">
-        <h2 class="section-title">Result</h2>
-        <div class="results-layout">
-          <div class="results-table-panel">
-            <div class="result-group">
-              <h3>Multilingual</h3>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Benchmark</th>
-                    <th>Loop 0</th>
-                    <th>Loop 1</th>
-                    <th>Loop 3</th>
-                    <th>Loop 10</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>GigaSpeech Test</td>
-                    <td>21.47%</td>
-                    <td>12.35%</td>
-                    <td>7.00%</td>
-                    <td>3.49%</td>
-                  </tr>
-                  <tr>
-                    <td>WenetSpeech Test_Net</td>
-                    <td>19.46%</td>
-                    <td>8.69%</td>
-                    <td>4.15%</td>
-                    <td>1.80%</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <div class="result-group">
-              <h3>Name Entity</h3>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Benchmark</th>
-                    <th>Loop 0</th>
-                    <th>Loop 1</th>
-                    <th>Loop 3</th>
-                    <th>Loop 10</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>AISHELL-NER Dev†</td>
-                    <td>17.38%</td>
-                    <td>8.45%</td>
-                    <td>4.45%</td>
-                    <td>1.97%</td>
-                  </tr>
-                  <tr>
-                    <td>AISHELL-NER Test†</td>
-                    <td>19.91%</td>
-                    <td>9.55%</td>
-                    <td>5.47%</td>
-                    <td>2.02%</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <div class="result-group">
-              <h3>Code Switching</h3>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Benchmark</th>
-                    <th>Loop 0</th>
-                    <th>Loop 1</th>
-                    <th>Loop 3</th>
-                    <th>Loop 10</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>CS-Dialogue Test†</td>
-                    <td>19.73%</td>
-                    <td>10.83%</td>
-                    <td>6.58%</td>
-                    <td>4.16%</td>
-                  </tr>
-                  <tr>
-                    <td>ASRU2019 Test</td>
-                    <td>28.57%</td>
-                    <td>10.32%</td>
-                    <td>3.98%</td>
-                    <td>1.36%</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full">
+          <h2 class="title is-3">Result</h2>
+        </div>
+      </div>
+      <div class="columns is-variable is-6">
+        <div class="column is-half">
+          <div class="result-block">
+            <h3 class="title is-5 result-group-title">Multilingual</h3>
+            <table class="table is-fullwidth is-striped result-table">
+              <thead>
+                <tr>
+                  <th>Benchmark</th>
+                  <th>Loop 0</th>
+                  <th>Loop 1</th>
+                  <th>Loop 3</th>
+                  <th>Loop 10</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>GigaSpeech Test</td>
+                  <td>21.47%</td>
+                  <td>12.35%</td>
+                  <td>7.00%</td>
+                  <td>3.49%</td>
+                </tr>
+                <tr>
+                  <td>WenetSpeech Test_Net</td>
+                  <td>19.46%</td>
+                  <td>8.69%</td>
+                  <td>4.15%</td>
+                  <td>1.80%</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
+          <div class="result-block">
+            <h3 class="title is-5 result-group-title">Name Entity</h3>
+            <table class="table is-fullwidth is-striped result-table">
+              <thead>
+                <tr>
+                  <th>Benchmark</th>
+                  <th>Loop 0</th>
+                  <th>Loop 1</th>
+                  <th>Loop 3</th>
+                  <th>Loop 10</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>AISHELL-NER Dev†</td>
+                  <td>17.38%</td>
+                  <td>8.45%</td>
+                  <td>4.45%</td>
+                  <td>1.97%</td>
+                </tr>
+                <tr>
+                  <td>AISHELL-NER Test†</td>
+                  <td>19.91%</td>
+                  <td>9.55%</td>
+                  <td>5.47%</td>
+                  <td>2.02%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="result-block">
+            <h3 class="title is-5 result-group-title">Code Switching</h3>
+            <table class="table is-fullwidth is-striped result-table">
+              <thead>
+                <tr>
+                  <th>Benchmark</th>
+                  <th>Loop 0</th>
+                  <th>Loop 1</th>
+                  <th>Loop 3</th>
+                  <th>Loop 10</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>CS-Dialogue Test†</td>
+                  <td>19.73%</td>
+                  <td>10.83%</td>
+                  <td>6.58%</td>
+                  <td>4.16%</td>
+                </tr>
+                <tr>
+                  <td>ASRU2019 Test</td>
+                  <td>28.57%</td>
+                  <td>10.32%</td>
+                  <td>3.98%</td>
+                  <td>1.36%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-          <div class="results-figure-panel">
-            <img src="static/images/tmm/main-results.png" alt="Main results curve" loading="lazy">
-            <p class="figure-caption">
+        <div class="column is-half">
+          <div class="content has-text-centered result-figure-wrap">
+            <img src="static/images/tmm/main-results.png" alt="Main results curve" class="result-figure">
+            <p class="method-caption">
               Performance trends of the proposed Agentic ASR framework from Loop 0 to Loop 10.
               The upper panel shows S<sup>2</sup>ER across all benchmarks, while the lower panel reports conventional error rates (WER/CER/MER).
               S<sup>2</sup>ER decreases consistently with more interaction, with the largest gains typically observed in the first few loops, whereas conventional token-level metrics improve more gradually.
@@ -195,145 +223,155 @@
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="section" id="examples">
-      <div class="container reveal">
-        <h2 class="section-title">Examples</h2>
-
-        <div class="demo-tabs" role="tablist" aria-label="Example language tabs">
-          <button class="demo-tab is-active" type="button" data-demo-tab="zh" aria-selected="true">Mandarin</button>
-          <button class="demo-tab" type="button" data-demo-tab="en" aria-selected="false">English</button>
-          <button class="demo-tab" type="button" data-demo-tab="cs" aria-selected="false">Code-switch</button>
-        </div>
-
-        <div class="demo-panel is-active" id="demo-zh" role="tabpanel">
-          <article class="sample-card">
-            <div class="sample-header">
-              <span class="sample-id">ID: TEST_NET_Y0000000000_-KTKHdZ2fb8_S00043</span>
-              <span class="sample-badge">2 Rounds</span>
-            </div>
-            <div class="gt-box"><strong>Ground Truth:</strong> 吴克儿待会儿去趟监控室</div>
-            <div class="correction-flow">
-              <div class="flow-step">
-                <div class="step-label">Ground Truth Audio</div>
-                <audio controls>
-                  <source src="static/audio/TEST_NET_Y0000000000_-KTKHdZ2fb8_S00043_gt.wav" type="audio/wav">
-                </audio>
-              </div>
-              <div class="flow-step">
-                <div class="step-label">Loop 0 - Initial ASR</div>
-                <div class="step-content error">吴克，带我去趟办公室。</div>
-              </div>
-              <div class="flow-step">
-                <div class="step-label">Human Correction</div>
-                <div class="step-content correction">不是吴克，是吴克儿。要纠正的是待会儿去监控室，不是带我去办公室。</div>
-                <audio controls>
-                  <source src="static/audio/TEST_NET_Y0000000000_-KTKHdZ2fb8_S00043_round1.wav" type="audio/wav">
-                </audio>
-              </div>
-              <div class="flow-step">
-                <div class="step-label">Loop 1</div>
-                <div class="step-content warning">吴克儿，待会儿去监控室。</div>
-              </div>
-              <div class="flow-step">
-                <div class="step-label">Human Correction</div>
-                <div class="step-content correction">是去趟监控室，不是去监控室，有个趟字。</div>
-                <audio controls>
-                  <source src="static/audio/TEST_NET_Y0000000000_-KTKHdZ2fb8_S00043_round2.wav" type="audio/wav">
-                </audio>
-              </div>
-              <div class="flow-step">
-                <div class="step-label">Loop 2 - Corrected</div>
-                <div class="step-content correct">吴克儿待会儿去趟监控室</div>
-              </div>
-            </div>
-          </article>
-        </div>
-
-        <div class="demo-panel" id="demo-en" role="tabpanel" hidden>
-          <article class="sample-card">
-            <div class="sample-header">
-              <span class="sample-id">ID: YOU1000000143_S0000123</span>
-              <span class="sample-badge">1 Round</span>
-            </div>
-            <div class="gt-box"><strong>Ground Truth:</strong> SO, AFTER GETTING OBAMA AND BIDEN ELECTED, I FELT THIS POWER TRIP.</div>
-            <div class="correction-flow">
-              <div class="flow-step">
-                <div class="step-label">Ground Truth Audio</div>
-                <audio controls>
-                  <source src="static/audio/YOU1000000143_S0000123_gt.wav" type="audio/wav">
-                </audio>
-              </div>
-              <div class="flow-step">
-                <div class="step-label">Loop 0 - Initial ASR</div>
-                <div class="step-content error">So after getting Obama Biden elected, I felt this power shift.</div>
-              </div>
-              <div class="flow-step">
-                <div class="step-label">Human Correction</div>
-                <div class="step-content correction">It is not "power shift", it is "power trip", T R I P. A feeling of inflated power.</div>
-                <audio controls>
-                  <source src="static/audio/YOU1000000143_S0000123_round1.wav" type="audio/wav">
-                </audio>
-              </div>
-              <div class="flow-step">
-                <div class="step-label">Loop 1 - Corrected</div>
-                <div class="step-content correct">So after getting Obama Biden elected, I felt this power trip.</div>
-              </div>
-            </div>
-          </article>
-        </div>
-
-        <div class="demo-panel" id="demo-cs" role="tabpanel" hidden>
-          <article class="sample-card">
-            <div class="sample-header">
-              <span class="sample-id">ID: 00117</span>
-              <span class="sample-badge">1 Round</span>
-            </div>
-            <div class="gt-box"><strong>Ground Truth:</strong> 史上最厉害的 ATTENDEE 马上要出现了</div>
-            <div class="correction-flow">
-              <div class="flow-step">
-                <div class="step-label">Ground Truth Audio</div>
-                <audio controls>
-                  <source src="static/audio/00117_gt.wav" type="audio/wav">
-                </audio>
-              </div>
-              <div class="flow-step">
-                <div class="step-label">Loop 0 - Initial ASR</div>
-                <div class="step-content error">史上最厉害的 Attendant 马上就要出现了。</div>
-              </div>
-              <div class="flow-step">
-                <div class="step-label">Human Correction</div>
-                <div class="step-content correction">不是 Attendant，是英文单词 ATTENDEE，A T T E N D E E，意思是参加者。</div>
-                <audio controls>
-                  <source src="static/audio/00117_round1.wav" type="audio/wav">
-                </audio>
-              </div>
-              <div class="flow-step">
-                <div class="step-label">Loop 1 - Corrected</div>
-                <div class="step-content correct">史上最厉害的 Attendee 马上要出现了</div>
-              </div>
-            </div>
-          </article>
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full">
+          <h2 class="title is-3">Examples</h2>
         </div>
       </div>
-    </section>
 
-    <section class="section section-soft" id="citation">
-      <div class="container narrow reveal">
-        <h2 class="section-title centered">Citation</h2>
-        <div class="citation-panel">
-          <pre id="bibtex-code"></pre>
+      <div class="example-tabs has-text-centered">
+        <button class="tab-btn active" type="button" data-demo-tab="zh" aria-selected="true">Mandarin</button>
+        <button class="tab-btn" type="button" data-demo-tab="en" aria-selected="false">English</button>
+        <button class="tab-btn" type="button" data-demo-tab="cs" aria-selected="false">Code-switch</button>
+      </div>
+
+      <div class="demo-panel is-active" id="demo-zh" role="tabpanel">
+        <div class="sample-card">
+          <div class="sample-header">
+            <span class="sample-id">ID: TEST_NET_Y0000000000_-KTKHdZ2fb8_S00043</span>
+            <span class="tag">2 Rounds</span>
+          </div>
+          <div class="gt-box"><strong>Ground Truth:</strong> 吴克儿待会儿去趟监控室</div>
+          <div class="correction-flow">
+            <div class="flow-step">
+              <div class="step-label">Ground Truth Audio</div>
+              <audio controls>
+                <source src="static/audio/TEST_NET_Y0000000000_-KTKHdZ2fb8_S00043_gt.wav" type="audio/wav">
+              </audio>
+            </div>
+            <div class="flow-step asr-step">
+              <div class="step-label">Loop 0 - Initial ASR</div>
+              <div class="step-content error">吴克，带我去趟办公室。</div>
+            </div>
+            <div class="flow-step">
+              <div class="step-label">Human Correction</div>
+              <div class="step-content correction">不是吴克，是吴克儿。要纠正的是待会儿去监控室，不是带我去办公室。</div>
+              <audio controls>
+                <source src="static/audio/TEST_NET_Y0000000000_-KTKHdZ2fb8_S00043_round1.wav" type="audio/wav">
+              </audio>
+            </div>
+            <div class="flow-step asr-step">
+              <div class="step-label">Loop 1</div>
+              <div class="step-content warning">吴克儿，待会儿去监控室。</div>
+            </div>
+            <div class="flow-step">
+              <div class="step-label">Human Correction</div>
+              <div class="step-content correction">是去趟监控室，不是去监控室，有个趟字。</div>
+              <audio controls>
+                <source src="static/audio/TEST_NET_Y0000000000_-KTKHdZ2fb8_S00043_round2.wav" type="audio/wav">
+              </audio>
+            </div>
+            <div class="flow-step loop-step">
+              <div class="step-label">Loop 2 - Corrected</div>
+              <div class="step-content correct">吴克儿待会儿去趟监控室</div>
+            </div>
+          </div>
         </div>
       </div>
-    </section>
-  </main>
 
-  <footer class="site-footer">
-    <div class="container narrow footer-inner">
-      <p>
-        Acknowledgement: This website is inspired by the style of the FunASR project page and adapted for the Interactive ASR project.
-      </p>
+      <div class="demo-panel" id="demo-en" role="tabpanel" hidden>
+        <div class="sample-card">
+          <div class="sample-header">
+            <span class="sample-id">ID: YOU1000000143_S0000123</span>
+            <span class="tag">1 Round</span>
+          </div>
+          <div class="gt-box"><strong>Ground Truth:</strong> SO, AFTER GETTING OBAMA AND BIDEN ELECTED, I FELT THIS POWER TRIP.</div>
+          <div class="correction-flow">
+            <div class="flow-step">
+              <div class="step-label">Ground Truth Audio</div>
+              <audio controls>
+                <source src="static/audio/YOU1000000143_S0000123_gt.wav" type="audio/wav">
+              </audio>
+            </div>
+            <div class="flow-step asr-step">
+              <div class="step-label">Loop 0 - Initial ASR</div>
+              <div class="step-content error">So after getting Obama Biden elected, I felt this power shift.</div>
+            </div>
+            <div class="flow-step">
+              <div class="step-label">Human Correction</div>
+              <div class="step-content correction">It is not "power shift", it is "power trip", T R I P. A feeling of inflated power.</div>
+              <audio controls>
+                <source src="static/audio/YOU1000000143_S0000123_round1.wav" type="audio/wav">
+              </audio>
+            </div>
+            <div class="flow-step loop-step">
+              <div class="step-label">Loop 1 - Corrected</div>
+              <div class="step-content correct">So after getting Obama Biden elected, I felt this power trip.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-panel" id="demo-cs" role="tabpanel" hidden>
+        <div class="sample-card">
+          <div class="sample-header">
+            <span class="sample-id">ID: 00117</span>
+            <span class="tag">1 Round</span>
+          </div>
+          <div class="gt-box"><strong>Ground Truth:</strong> 史上最厉害的 ATTENDEE 马上要出现了</div>
+          <div class="correction-flow">
+            <div class="flow-step">
+              <div class="step-label">Ground Truth Audio</div>
+              <audio controls>
+                <source src="static/audio/00117_gt.wav" type="audio/wav">
+              </audio>
+            </div>
+            <div class="flow-step asr-step">
+              <div class="step-label">Loop 0 - Initial ASR</div>
+              <div class="step-content error">史上最厉害的 Attendant 马上就要出现了。</div>
+            </div>
+            <div class="flow-step">
+              <div class="step-label">Human Correction</div>
+              <div class="step-content correction">不是 Attendant，是英文单词 ATTENDEE，A T T E N D E E，意思是参加者。</div>
+              <audio controls>
+                <source src="static/audio/00117_round1.wav" type="audio/wav">
+              </audio>
+            </div>
+            <div class="flow-step loop-step">
+              <div class="step-label">Loop 1 - Corrected</div>
+              <div class="step-content correct">史上最厉害的 Attendee 马上要出现了</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Citation</h2>
+          <div class="content has-text-left">
+            <pre id="bibtex-code"></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        <p>
+          This website is inspired by the design style of <a href="https://github.com/FunAudioLLM/FunAudioLLM.github.io" target="_blank" rel="noopener">FunAudioLLM.github.io</a>.
+        </p>
+      </div>
     </div>
   </footer>
 
